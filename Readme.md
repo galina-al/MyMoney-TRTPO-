@@ -31,28 +31,44 @@
  
    **1. Главный экран приложения после авторизации:**
    
-   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/1.1.%20main%20activity.png?raw=true)
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/1.main%20activity.png?raw=true)
    
    **2. Экран добавления доходов:**
    
-   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/2.%20finance%20activity.png?raw=true)
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/2.finance%20activity.png?raw=true)
+   
+   **2.1. Экран редактирование разделов "Доходы":**
+   
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/2_1.editing%20finance%20sections%20.png?raw=true)
    
    **3. Экран добавления расходов:**
    
    ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/3.%20costs%20activity.png?raw=true)
    
+   **3.1. Экран редактирование разделов "Расходы":**
+   
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/3_1.editing%20costs%20sections.png?raw=true)
+   
    **4. Экран планирования расходов:** 
    
-   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/4.%20plans%20activity.png?raw=true)
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/4.plans%20activity.png?raw=true)
    
    **5. Экран просмотра статистики:**
    
-   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/5.%20statistics%20activity.png?raw=true)
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/5.statistics%20activity.png?raw=true)
+   
+   **5.1. Экран редактирования статистики расходов:**
+   
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/5_1.editing%20statistic%20costs.png?raw=true)
+   
+   **5.2. Экран редактирования статистики доходов:**
+   
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/5_2.editing%20statistic%20finance.png?raw=true)
    
   **6. Информационный экран ( тут будет описана общая информация о приложении для того случая, если у пользователя 
    возникнут трудности в использовании "My Money"):**
    
-   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/6.%20help%20activity.png?raw=true)
+   ![](https://github.com/galina-al/MyMoney-TRTPO-/blob/master/Mockups/6.help%20activity.png?raw=true)
 
 ### 2.3 Характеристики пользователей
    Целевая аудитория приложения - люди любого возраста, интересующиеся систематизацией своего бюджета.
@@ -73,8 +89,8 @@
 в соответствии с разделом и под текущей датой.
 
 #### 3.1.3 Функция редактирования разделов
-* Пользоватлю предстоит нажать на кнопку "Редактирования", после чего он сможет добавить новый раздел, указав название и выбрав
-иконку.
+* Пользователю предстоит нажать на кнопку редактирования, после чего он сможет изменить название выбранного раздела или удалить его.
+* При нажатии кнопки добавления, пользователь может создать новый раздел, указав название.
 
 #### 3.1.4 Функция составления планов
 * Позволяет добавлять предполагаемую сумму предстоящих расходов к какому-либо рзделу.
@@ -83,6 +99,18 @@
 * Пользователю предстоит выбрать месяц в поле ComboBox.
 В соответствии с ним будет отображена круговая диаграмма по расходам или доходам ( зависит от выбора).
 Так же будет отображены разделы с указанием процентов и определенной суммы.
+
+#### 3.1.6 Функция отображения информации о приложении
+* Позволяет просмотреть информацию о приложении
+
+#### 3.1.7 Функция выхода из приложения
+* Закрывает приложения переходя на "Home" экран.
+
+#### 3.1.8 Функция изменения статистики
+* Пользователю предстоит выбрать раздел.
+В соответствии с ним будет отображен экран с детальной информацией по выбранному разделу с датами.
+* При нажатии на определенный пункт откроется экран редактирования пункта с возможностью изменить статью расхода(дохода), суммы,
+даты.
 
 
 ### 3.2 Нефункциональные требования
