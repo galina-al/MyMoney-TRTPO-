@@ -9,13 +9,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity.IncomeActivity"
+            android:label="@string/title_activity_finance"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.StatisticActivity"
+            android:label="@string/title_activity_statistic"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.SpendingActivity"
+            android:label="@string/title_activity_costs"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.PlansActivity"
+            android:label="@string/title_activity_plans"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.InfoActivity"
+            android:label="@string/title_activity_info"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

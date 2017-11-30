@@ -5,8 +5,228 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.usr.mymoney.MainActivity">
+    tools:context="com.example.usr.mymoney.Activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="My"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="450dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:text="Money"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/coins_bw" />
 
 
+    </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/btn_income"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:src="@drawable/finance"
+                    app:cb_color="#9cb8da"
+                    app:cb_pressedRingWidth="8dip" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Доходы"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_spending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/layout_income"
+                android:orientation="vertical">
+
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/btn_spending"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:src="@drawable/costs"
+                    app:cb_color="#9cb8da"
+                    app:cb_pressedRingWidth="8dip" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Расходы"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_plans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/btn_plans"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:src="@drawable/plans"
+                    app:cb_color="#9cb8da"
+                    app:cb_pressedRingWidth="8dip" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Планы"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_statistic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/btn_statistic"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:src="@drawable/statistic"
+                    app:cb_color="#9cb8da"
+                    app:cb_pressedRingWidth="8dip" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Статистика"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/layout_plans"
+                android:layout_below="@id/layout_plans"
+                android:orientation="vertical">
+
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/btn_exit"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:src="@drawable/exit"
+                    app:cb_color="#ffffff"
+                    app:cb_pressedRingWidth="8dip" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Выход"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_statistic"
+                android:layout_toRightOf="@id/layout_exit"
+                android:orientation="vertical">
+
+                <at.markushi.ui.CircleButton
+                    android:id="@+id/btn_info"
+                    android:layout_width="90dip"
+                    android:layout_height="90dip"
+                    android:src="@drawable/info"
+                    app:cb_color="#ffffff"
+                    app:cb_pressedRingWidth="8dip" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Информация"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
