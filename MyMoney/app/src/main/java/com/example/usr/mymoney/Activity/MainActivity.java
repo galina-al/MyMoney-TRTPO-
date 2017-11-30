@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.usr.mymoney.R;
+import com.example.usr.mymoney.Section;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -15,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     at.markushi.ui.CircleButton btn_statistic;
     at.markushi.ui.CircleButton btn_exit;
     at.markushi.ui.CircleButton btn_info;
+    public static List<Section> sections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

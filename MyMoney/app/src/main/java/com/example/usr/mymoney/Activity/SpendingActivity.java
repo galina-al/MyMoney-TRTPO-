@@ -8,8 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.usr.mymoney.R;
+import com.example.usr.mymoney.RVAdapter;
+import com.example.usr.mymoney.Section;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpendingActivity extends AppCompatActivity {
+
+    protected List<Section> sections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +27,22 @@ public class SpendingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_spending);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        sections = new ArrayList<>();
+        sections.add(new Section("Питание", R.drawable.food, ""));
+        sections.add(new Section("Одежда", R.drawable.trousers, ""));
+        sections.add(new Section("Подарки", R.drawable.gift, ""));
+        sections.add(new Section("Гигиена", R.drawable.shower, ""));
+        sections.add(new Section("Медицина", R.drawable.medical, ""));
+        sections.add(new Section("Спорт", R.drawable.sport,""));
+        sections.add(new Section("Бары и Кафе", R.drawable.bar, ""));
+
+        RVAdapter adapter = new RVAdapter(sections);
+        recyclerView.setAdapter(adapter);
 
     }
 

@@ -58,7 +58,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:backgroundTint="@android:color/white"
-            app:srcCompat="@drawable/pencil_20" android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/pencil_20" />
 
         <Space
             android:layout_width="wrap_content"
@@ -67,13 +68,11 @@
 
     </LinearLayout>
 
-
-    <fragment
-        android:name="com.example.usr.mymoney.Fragment.ItemFragment"
-        android:id="@+id/fragmentIncome"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_income"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </fragment>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
