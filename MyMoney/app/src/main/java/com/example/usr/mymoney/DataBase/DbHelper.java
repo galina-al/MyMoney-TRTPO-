@@ -180,7 +180,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deletePlansObject(FinanceObject financeObject) {
+    public void deletePlaningObject(FinanceObject financeObject) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? AND "
@@ -305,7 +305,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deletePlanSection(String nameSection) {
+    public void deletePlaningSection(String nameSection) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? ", new String[]{nameSection});
@@ -319,8 +319,9 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(KEY_SECTION_INCOME_NAME, newName);
-
         db.update(TABLE_SECTION_INCOME, values, KEY_SECTION_INCOME_NAME + " = ? ", new String[] {oldName});
+        values.clear();
+        values.put(KEY_INCOME_NAME, newName);
         db.update(TABLE_INCOME, values, KEY_INCOME_NAME + " = ? ", new String[]{oldName});
         db.close();
 
@@ -331,21 +332,26 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(KEY_SECTION_SPENDING_NAME, newName);
-
         db.update(TABLE_SECTION_SPENDING, values, KEY_SECTION_SPENDING_NAME + " = ? ", new String[] {oldName});
+        values.clear();
+        values.put(KEY_SPENDING_NAME, newName);
         db.update(TABLE_SPENDING, values, KEY_SPENDING_NAME + " = ? ", new String[]{oldName});
         db.close();
 
     }
-    public void updatePlaningSection(String oldName, String newName) {
+    public void updatePlaningSection(String oldName, String newName, String amount) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(KEY_SECTION_PLANING_NAME, newName);
-
         db.update(TABLE_SECTION_PLANING, values, KEY_SECTION_PLANING_NAME + " = ? ", new String[] {oldName});
+        values.clear();
+        values.put(KEY_PLANING_NAME, newName);
         db.update(TABLE_PLANING, values, KEY_PLANING_NAME + " = ? ", new String[]{oldName});
+        values.clear();
+        values.put(KEY_SECTION_PLANING_AMOUNT, amount);
+        db.update(TABLE_SECTION_PLANING, values, KEY_SECTION_PLANING_AMOUNT + " = ? ", new String[]{newName});
         db.close();
 
     }
@@ -364,7 +370,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updatePlanObject(FinanceObject financeObject) {
+    public void updatePlaningObject(FinanceObject financeObject) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 

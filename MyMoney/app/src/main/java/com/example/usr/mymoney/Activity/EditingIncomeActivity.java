@@ -62,45 +62,39 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
-                        //Получаем вид с файла prompt.xml, который применим для диалогового окна:
+                    public void onItemClick(View view, final int position) {
                         LayoutInflater li = LayoutInflater.from(getApplicationContext());
-                        View promptsView = li.inflate(R.layout.alert_dilalog, null);
+                        View promptsView = li.inflate(R.layout.name_section, null);
 
-                        //Создаем AlertDialog
-                        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+                        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(EditingIncomeActivity.this);
 
-                        //Настраиваем prompt.xml для нашего AlertDialog:
                         mDialogBuilder.setView(promptsView);
 
-                        //Настраиваем отображение поля для ввода текста в открытом диалоге:
-                        final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_name_section);
-                        edit_name_section.setText(sections.get(position).toString());
-                        final String nameSection = edit_name_section.getText().toString();
-
-                        final EditText edit_amount_section = (EditText) promptsView.findViewById(R.id.edit_amount);
-                        final String amountSection = edit_amount_section.getText().toString();
+                        final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
+                        final String oldName = sections.get(position).nameSection.toString();
+                        edit_name_section.setText(sections.get(position).getNameSection());
+                        edit_name_section.setTextColor(Integer.valueOf(R.color.colorPrimaryDark));
 
                         //Настраиваем сообщение в диалоговом окне:
                         mDialogBuilder
                                 .setCancelable(false)
-                                .setPositiveButton("Изменить",
+                                .setPositiveButton("Ок",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                if (!amountSection.equals("")) {
-
-                                                    /*double amount = Double.parseDouble(amountSection);
-                                                    String date = df.format(Calendar.getInstance().getTime());
-                                                    FinanceObject financeObject = new FinanceObject(nameSection, amount, date);
-
-                                                    dbHelper.addToPlaning(financeObject);*/
-
+                                                String newName = edit_name_section.getText().toString();
+                                                if (!newName.equals("") && newName != oldName) {
+                                                    Section updateSection = sections.get(position);
+                                                    updateSection.setNameSection(newName);
+                                                    adapter.updateItem(updateSection, position);
+                                                    dbHelper.updateIncomeSection(oldName, newName);
                                                 }
                                             }
                                         })
                                 .setNegativeButton("Удалить",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+                                                adapter.removeItem(position);
+                                                dbHelper.deleteIncomeSection(oldName);
                                                 dialog.cancel();
                                             }
                                         });
@@ -120,7 +114,8 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
                 })
         );
 
-
+        btn_add_inc_section = (ImageButton) findViewById(R.id.btn_add_inc_section);
+        btn_add_inc_section.setOnClickListener(this);
     }
 
     @Override
@@ -137,34 +132,28 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_inc_section:
-                int newPosition = sections.size();
-                Section newSection = new Section(newPosition, "Dog", R.drawable.star, "");
-                adapter.add(newSection, newPosition);
-                dbHelper.addIncomeSection(newSection);
-                /*//Получаем вид с файла prompt.xml, который применим для диалогового окна:
+
                 LayoutInflater li = LayoutInflater.from(this);
                 View promptsView = li.inflate(R.layout.name_section, null);
 
-                //Создаем AlertDialog
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(this);
 
-                //Настраиваем prompt.xml для нашего AlertDialog:
                 mDialogBuilder.setView(promptsView);
 
-                //Настраиваем отображение поля для ввода текста в открытом диалоге:
-                final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_section);
-                final String nameSection = edit_name_section.getText().toString();
+                final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
 
-                //Настраиваем сообщение в диалоговом окне:
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("Добавить",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        final String nameSection = edit_name_section.getText().toString();
                                         if (!nameSection.equals("")) {
 
-                                            sections.add(new Section(nameSection, R.drawable.star, ""));
-
+                                            int newPosition = sections.size();
+                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "");
+                                            adapter.addItem(newSection, newPosition);
+                                            dbHelper.addIncomeSection(newSection);
                                         }
                                     }
                                 })
@@ -174,13 +163,10 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
                                         dialog.cancel();
                                     }
                                 });
-
-                //Создаем AlertDialog:
                 AlertDialog alertDialog = mDialogBuilder.create();
-
-                //и отображаем его:
                 alertDialog.show();
-                break;*/
+                break;
+
         }
     }
 

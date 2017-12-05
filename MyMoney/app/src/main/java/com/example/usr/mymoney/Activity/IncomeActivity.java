@@ -88,7 +88,7 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
                         if (!amountEditText.equals("")) {
 
                             String nameObj = sections.get(position).nameSection;
-                            double amount = Double.parseDouble(editIncome.getText().toString());
+                            String  amount = editIncome.getText().toString();
                             String date = df.format(Calendar.getInstance().getTime());
 
                             FinanceObject financeObject = new FinanceObject(nameObj, amount, date);

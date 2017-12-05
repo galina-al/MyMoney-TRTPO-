@@ -16,7 +16,7 @@
         android:textColor="@color/colorPrimaryDark" />
 
     <EditText
-        android:id="@+id/edit_new_section"
+        android:id="@+id/edit_new_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <requestFocus />

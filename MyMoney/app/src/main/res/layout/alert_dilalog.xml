@@ -20,7 +20,8 @@
         android:id="@+id/edit_name_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/cardview_shadow_end_color" >
+        android:textColor="@android:color/black">
+
         <requestFocus />
     </EditText>
 
@@ -37,12 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:textColor="@color/cardview_shadow_end_color"/>
-
-    <ImageButton
-        android:id="@+id/im_btn_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/trash_small" />
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

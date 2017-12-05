@@ -48,16 +48,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
     }
 
 
-    public void remove(int position) {
+    public void removeItem(int position) {
         sections.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void add(Section section, int position) {
+    public void addItem(Section section, int position) {
         sections.add(position, section);
         notifyItemInserted(position);
     }
 
+    public void updateItem(Section section, int position) {
+        sections.set(position, section);
+        notifyItemInserted(position);
+    }
 
     public static class SectionViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;

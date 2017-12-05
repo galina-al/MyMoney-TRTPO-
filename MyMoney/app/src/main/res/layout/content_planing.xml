@@ -22,7 +22,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/btn_add"
+            android:id="@+id/btn_add_plan_section"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:backgroundTint="@android:color/white"

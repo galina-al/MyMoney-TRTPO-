@@ -59,33 +59,31 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
+                    public void onItemClick(View view, final int position) {
 
-                        //Получаем вид с файла prompt.xml, который применим для диалогового окна:
                         LayoutInflater li = LayoutInflater.from(getApplicationContext());
                         View promptsView = li.inflate(R.layout.name_section, null);
 
-                        //Создаем AlertDialog
                         AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(EditingSpendingActivity.this);
 
-                        //Настраиваем prompt.xml для нашего AlertDialog:
                         mDialogBuilder.setView(promptsView);
 
-                        //Настраиваем отображение поля для ввода текста в открытом диалоге:
-                        final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_name_section);
+                        final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
                         final String oldName = sections.get(position).nameSection.toString();
-                        edit_name_section.setText(oldName);
-                        //edit_name_section.setTextColor(Integer.valueOf(R.color.colorPrimaryDark));
+                        edit_name_section.setText(sections.get(position).getNameSection());
+                        edit_name_section.setTextColor(Integer.valueOf(R.color.colorPrimaryDark));
 
                         //Настраиваем сообщение в диалоговом окне:
                         mDialogBuilder
                                 .setCancelable(false)
-                                .setPositiveButton("Изменить",
+                                .setPositiveButton("Ок",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                final String newName = edit_name_section.getText().toString();
+                                                String newName = edit_name_section.getText().toString();
                                                 if (!newName.equals("") && newName != oldName) {
-
+                                                    Section updateSection = sections.get(position);
+                                                    updateSection.setNameSection(newName);
+                                                    adapter.updateItem(updateSection, position);
                                                     dbHelper.updateSpendingSection(oldName, newName);
                                                 }
                                             }
@@ -93,6 +91,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
                                 .setNegativeButton("Удалить",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+                                                adapter.removeItem(position);
                                                 dbHelper.deleteSpendingSection(oldName);
                                                 dialog.cancel();
                                             }
@@ -117,6 +116,18 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
         btn_add_spend_section.setOnClickListener(this);
 
     }
+
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_editing_spending);
+        List<Section> listFromDB = dbHelper.getAllSectionSpending();
+        sections = listFromDB;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new RVAdapter(sections);
+        recyclerView.setAdapter(adapter);
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,7 +154,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
                 mDialogBuilder.setView(promptsView);
 
                 //Настраиваем отображение поля для ввода текста в открытом диалоге:
-                final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_section);
+                final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
 
                 //Настраиваем сообщение в диалоговом окне:
                 mDialogBuilder
@@ -156,7 +167,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
 
                                             int newPosition = sections.size();
                                             Section newSection = new Section(newPosition, nameSection, R.drawable.star, "");
-                                            adapter.add(newSection, newPosition);
+                                            adapter.addItem(newSection, newPosition);
                                             dbHelper.addSpendingSection(newSection);
                                         }
                                     }

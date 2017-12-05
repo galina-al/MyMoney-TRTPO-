@@ -92,7 +92,7 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
                         if (!amountEditText.equals("")) {
 
                             String nameObj = sections.get(position).nameSection;
-                            double amount = Double.parseDouble(editSpending.getText().toString());
+                            String  amount = editSpending.getText().toString();
                             String date = df.format(Calendar.getInstance().getTime());
 
                             FinanceObject financeObject = new FinanceObject(nameObj, amount, date);

@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
-import com.example.usr.mymoney.FinanceObject;
 import com.example.usr.mymoney.R;
 import com.example.usr.mymoney.RVAdapter;
 import com.example.usr.mymoney.RecyclerItemClickListener;
@@ -23,13 +22,12 @@ import com.example.usr.mymoney.Section;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class PlaningActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected List<Section> sections;
-    ImageButton btn_add;
+    ImageButton btn_add_plan_section;
     DateFormat df;
 
     RVAdapter adapter;
@@ -47,10 +45,10 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
 
         df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
 
-        btn_add = (ImageButton) findViewById(R.id.btn_add);
+        btn_add_plan_section = (ImageButton) findViewById(R.id.btn_add_plan_section);
+        btn_add_plan_section.setOnClickListener(this);
 
         dbHelper = new DbHelper(this);
-        btn_add.setOnClickListener(this);
 
         List<Section> listFromDB = dbHelper.getAllSectionPlaning();
 
@@ -87,53 +85,52 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
-                        //Получаем вид с файла prompt.xml, который применим для диалогового окна:
+                    public void onItemClick(View view, final int position) {
+
                         LayoutInflater li = LayoutInflater.from(getApplicationContext());
                         View promptsView = li.inflate(R.layout.alert_dilalog, null);
 
-                        //Создаем AlertDialog
-                        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(getApplicationContext());
-
-                        //Настраиваем prompt.xml для нашего AlertDialog:
+                        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(PlaningActivity.this);
                         mDialogBuilder.setView(promptsView);
 
-                        //Настраиваем отображение поля для ввода текста в открытом диалоге:
                         final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_name_section);
-                        edit_name_section.setText(sections.get(position).toString());
-                        final String nameSection = edit_name_section.getText().toString();
+                        final String oldName = sections.get(position).nameSection.toString();
+                        edit_name_section.setText(oldName);
+                        edit_name_section.setTextColor(Integer.valueOf(R.color.colorPrimaryDark));
 
                         final EditText edit_amount_section = (EditText) promptsView.findViewById(R.id.edit_amount);
-                        final String amountSection = edit_amount_section.getText().toString();
 
-                        //Настраиваем сообщение в диалоговом окне:
                         mDialogBuilder
                                 .setCancelable(false)
-                                .setPositiveButton("Добавить",
+                                .setPositiveButton("Ок",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                if (!amountSection.equals("")) {
+                                                final String newName = edit_name_section.getText().toString();
+                                                final String amountSection = edit_amount_section.getText().toString();
+                                                if (!amountSection.equals("") && newName != "" && newName != oldName) {
 
-                                                    double amount = Double.parseDouble(amountSection);
-                                                    String date = df.format(Calendar.getInstance().getTime());
-                                                    FinanceObject financeObject = new FinanceObject(nameSection, amount, date);
+                                                    //String date = df.format(Calendar.getInstance().getTime());
+                                                    //FinanceObject financeObject = new FinanceObject(newName, amountSection, date);
+                                                    //dbHelper.addToPlaning(financeObject);
 
-                                                    dbHelper.addToPlaning(financeObject);
+                                                    Section updateSection = sections.get(position);
+                                                    updateSection.setNameSection(newName);
+                                                    updateSection.setAmount(amountSection + " р.");
+                                                    dbHelper.updatePlaningSection(oldName, newName, amountSection);
+                                                    adapter.updateItem(updateSection, position);
 
                                                 }
                                             }
                                         })
-                                .setNegativeButton("Отмена",
+                                .setNegativeButton("Удалить",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+                                                adapter.removeItem(position);
+                                                dbHelper.deletePlaningSection(oldName);
                                                 dialog.cancel();
                                             }
                                         });
-
-                        //Создаем AlertDialog:
                         AlertDialog alertDialog = mDialogBuilder.create();
-
-                        //и отображаем его:
                         alertDialog.show();
 
                     }
@@ -144,7 +141,6 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 })
         );
-
 
     }
 
@@ -161,22 +157,17 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_add:
+            case R.id.btn_add_plan_section:
 
-                //Получаем вид с файла prompt.xml, который применим для диалогового окна:
                 LayoutInflater li = LayoutInflater.from(this);
                 View promptsView = li.inflate(R.layout.name_section, null);
 
-                //Создаем AlertDialog
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(this);
 
-                //Настраиваем prompt.xml для нашего AlertDialog:
                 mDialogBuilder.setView(promptsView);
 
-                //Настраиваем отображение поля для ввода текста в открытом диалоге:
-                final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_section);
+                final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
 
-                //Настраиваем сообщение в диалоговом окне:
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("Добавить",
@@ -184,11 +175,11 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                                     public void onClick(DialogInterface dialog, int id) {
                                         final String nameSection = edit_name_section.getText().toString();
                                         if (!nameSection.equals("")) {
+
                                             int newPosition = sections.size();
                                             Section newSection = new Section(newPosition, nameSection, R.drawable.star, "");
-                                            adapter.add(newSection, newPosition);
+                                            adapter.addItem(newSection, newPosition);
                                             dbHelper.addPlaningSection(newSection);
-
                                         }
                                     }
                                 })
@@ -198,11 +189,7 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                                         dialog.cancel();
                                     }
                                 });
-
-                //Создаем AlertDialog:
                 AlertDialog alertDialog = mDialogBuilder.create();
-
-                //и отображаем его:
                 alertDialog.show();
                 break;
         }
