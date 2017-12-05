@@ -31,10 +31,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/section_img"
-                android:textSize="30sp" />
+                android:textSize="25dp" />
 
             <TextView
-                android:id="@+id/amount"
+                android:id="@+id/section_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

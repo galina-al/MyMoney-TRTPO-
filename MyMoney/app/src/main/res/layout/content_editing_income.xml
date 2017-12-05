@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.usr.mymoney.Activity.PlansActivity"
-    tools:showIn="@layout/activity_plans">
+    tools:context="com.example.usr.mymoney.Activity.EditingIncomeActivity"
+    tools:showIn="@layout/activity_editing_income">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <Space
             android:layout_width="320dp"
@@ -22,7 +22,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/btn_add"
+            android:id="@+id/btn_add_inc_section"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:backgroundTint="@android:color/white"
@@ -36,11 +36,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_spending"
+        android:id="@+id/rv_editing_income"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
-
-
 </LinearLayout>

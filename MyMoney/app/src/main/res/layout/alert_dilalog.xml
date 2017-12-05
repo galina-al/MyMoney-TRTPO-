@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tv_name_section"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Название: "
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <EditText
+        android:id="@+id/edit_name_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cardview_shadow_end_color" >
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сумма:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/edit_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:textColor="@color/cardview_shadow_end_color"/>
+
+    <ImageButton
+        android:id="@+id/im_btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/trash_small" />
+
+</LinearLayout>

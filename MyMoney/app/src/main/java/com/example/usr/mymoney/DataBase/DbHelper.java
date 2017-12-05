@@ -3,22 +3,66 @@ package com.example.usr.mymoney.DataBase;
 /**
  * Created by usr on 10.11.2017.
  */
-/*import android.content.ContentValues;
+
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.usr.mymoney.FinanceObject;
+import com.example.usr.mymoney.Section;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final String LOG_TAG = "my_tag";
 
-    public static final String TABLE_NAME = "friends";
+    public static final String TABLE_INCOME = "income";
 
-    public static final String KEY_ID = "_id";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_EMAIL = "email";
+    public static final String KEY_INCOME_ID = "_id1";
+    public static final String KEY_INCOME_NAME = "name";
+    public static final String KEY_INCOME_AMOUNT = "amount";
+    public static final String KEY_INCOME_DATE = "date";
 
-    private static final String DATABASE_NAME = "friendsDB";
+    public static final String TABLE_SPENDING = "spending";
+
+    public static final String KEY_SPENDING_ID = "_id2";
+    public static final String KEY_SPENDING_NAME = "name";
+    public static final String KEY_SPENDING_AMOUNT = "amount";
+    public static final String KEY_SPENDING_DATE = "date";
+
+    public static final String TABLE_PLANING = "planing";
+
+    public static final String KEY_PLANING_ID = "_id3";
+    public static final String KEY_PLANING_NAME = "name";
+    public static final String KEY_PLANING_AMOUNT = "amount";
+    public static final String KEY_PLANING_DATE = "date";
+
+    public static final String TABLE_SECTION_INCOME = "section_income";
+
+    public static final String KEY_SECTION_INCOME_ID = "_id";
+    public static final String KEY_SECTION_INCOME_NAME = "section_name";
+    public static final String KEY_SECTION_INCOME_IMG_ID = "section_img_id";
+    public static final String KEY_SECTION_INCOME_AMOUNT = "section_amount";
+
+    public static final String TABLE_SECTION_SPENDING = "section_spending";
+
+    public static final String KEY_SECTION_SPENDING_ID = "_id";
+    public static final String KEY_SECTION_SPENDING_NAME = "section_name";
+    public static final String KEY_SECTION_SPENDING_IMG_ID = "section_img_id";
+    public static final String KEY_SECTION_SPENDING_AMOUNT = "section_amount";
+
+    public static final String TABLE_SECTION_PLANING = "section_planing";
+
+    public static final String KEY_SECTION_PLANING_ID = "_id";
+    public static final String KEY_SECTION_PLANING_NAME = "section_name";
+    public static final String KEY_SECTION_PLANING_IMG_ID = "section_img_id";
+    public static final String KEY_SECTION_PLANING_AMOUNT = "section_amount";
+
+    private static final String DATABASE_NAME = "mymoneyDB";
     private static final int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -28,30 +72,302 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_NAME +" ("
-                + KEY_ID + " integer primary key autoincrement,"
-                + KEY_NAME + " text,"
-                + KEY_EMAIL + " text" + ");");
+        db.execSQL("create table " + TABLE_INCOME + "("
+                + KEY_INCOME_ID + " integer primary key autoincrement, "
+                + KEY_INCOME_NAME + " text, "
+                + KEY_INCOME_AMOUNT + " text, "
+                + KEY_INCOME_DATE + " text" + ");");
 
-        ContentValues cv = new ContentValues();
+        db.execSQL("create table " + TABLE_SPENDING + "("
+                + KEY_SPENDING_ID + " integer primary key autoincrement, "
+                + KEY_SPENDING_NAME + " text, "
+                + KEY_SPENDING_AMOUNT + " text, "
+                + KEY_SPENDING_DATE + " text" + ");");
 
-        cv.put(KEY_NAME, "Igor");
-        cv.put(KEY_EMAIL, "email1@email.com");
-        db.insert(TABLE_NAME, null, cv);
+        db.execSQL("create table " + TABLE_PLANING + "("
+                + KEY_PLANING_ID + " integer primary key autoincrement, "
+                + KEY_PLANING_NAME + " text, "
+                + KEY_PLANING_AMOUNT + " text, "
+                + KEY_PLANING_DATE + " text" + ");");
 
-        cv.put(KEY_NAME, "Dima");
-        cv.put(KEY_EMAIL, "email2@email.com");
-        db.insert(TABLE_NAME, null, cv);
+        db.execSQL("create table " + TABLE_SECTION_INCOME + "("
+                + KEY_SECTION_INCOME_ID + " integer primary key autoincrement, "
+                + KEY_SECTION_INCOME_NAME + " text, "
+                + KEY_SECTION_INCOME_IMG_ID + " text, "
+                + KEY_SECTION_INCOME_AMOUNT + " text" + ");");
 
-        cv.put(KEY_NAME, "Alex");
-        cv.put(KEY_EMAIL, "email3@email.com");
-        db.insert(TABLE_NAME, null, cv);
+        db.execSQL("create table " + TABLE_SECTION_SPENDING + "("
+                + KEY_SECTION_SPENDING_ID + " integer primary key autoincrement, "
+                + KEY_SECTION_SPENDING_NAME + " text, "
+                + KEY_SECTION_SPENDING_IMG_ID + " text, "
+                + KEY_SECTION_SPENDING_AMOUNT + " text" + ");");
+
+        db.execSQL("create table " + TABLE_SECTION_PLANING + "("
+                + KEY_SECTION_PLANING_ID + " integer primary key autoincrement, "
+                + KEY_SECTION_PLANING_NAME + " text, "
+                + KEY_SECTION_PLANING_IMG_ID + " text, "
+                + KEY_SECTION_PLANING_AMOUNT + " text" + ");");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INCOME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SPENDING);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANING);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SECTION_INCOME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SECTION_SPENDING);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SECTION_PLANING);
         this.onCreate(db);
     }
 
-}*/
+    public void addToIncome(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_INCOME_DATE, financeObject.getDate().toString());
+        values.put(KEY_INCOME_AMOUNT, financeObject.getAmount());
+        values.put(KEY_INCOME_NAME, financeObject.getNameObj().toString());
+
+        db.insert(TABLE_INCOME, null, values);
+        db.close();
+
+    }
+
+    public void addToSpending(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SPENDING_NAME, financeObject.getNameObj());
+        values.put(KEY_SPENDING_AMOUNT, financeObject.getAmount());
+        values.put(KEY_SPENDING_DATE, financeObject.getDate());
+
+        db.insert(TABLE_SPENDING, null, values);
+        db.close();
+    }
+
+    public void addToPlaning(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_PLANING_NAME, financeObject.getNameObj());
+        values.put(KEY_PLANING_AMOUNT, financeObject.getAmount());
+        values.put(KEY_PLANING_DATE, financeObject.getDate());
+
+        db.insert(TABLE_PLANING, null, values);
+        db.close();
+    }
+
+    public void deleteIncomeObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_INCOME, KEY_INCOME_NAME + " = ? AND "
+                        + KEY_INCOME_AMOUNT + " = ? AND " + KEY_INCOME_DATE + " = ? ",
+                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
+                        financeObject.getDate()});
+        db.close();
+    }
+
+    public void deleteSpendingObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SPENDING, KEY_SPENDING_NAME + " = ? AND "
+                        + KEY_SPENDING_AMOUNT + " = ? AND " + KEY_SPENDING_DATE + " = ? ",
+                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
+                        financeObject.getDate()});
+        db.close();
+    }
+
+    public void deletePlansObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? AND "
+                        + KEY_PLANING_AMOUNT + " = ? AND " + KEY_PLANING_DATE + " = ? ",
+                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
+                        financeObject.getDate()});
+        db.close();
+    }
+
+    public List<Section> getAllSectionIncome() {
+        List<Section> sectionList = new ArrayList<Section>();
+        String query = "select * from " + TABLE_SECTION_INCOME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Section section = new Section();
+                section.setSectionId(cursor.getInt(0));
+                section.setNameSection(cursor.getString(1));
+                section.setImageId(cursor.getInt(2));
+                section.setAmount(cursor.getString(3));
+
+                sectionList.add(section);
+            } while (cursor.moveToNext());
+        }
+        return sectionList;
+    }
+
+    public List<Section> getAllSectionSpending() {
+        List<Section> sectionList = new ArrayList<Section>();
+        String query = "select * from " + TABLE_SECTION_SPENDING;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Section section = new Section();
+                section.setSectionId(cursor.getInt(0));
+                section.setNameSection(cursor.getString(1));
+                section.setImageId(cursor.getInt(2));
+                section.setAmount(cursor.getString(3));
+
+                sectionList.add(section);
+            } while (cursor.moveToNext());
+        }
+        return sectionList;
+    }
+
+    public List<Section> getAllSectionPlaning() {
+        List<Section> sectionList = new ArrayList<Section>();
+        String query = "select * from " + TABLE_SECTION_PLANING;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Section section = new Section();
+                section.setSectionId(cursor.getInt(0));
+                section.setNameSection(cursor.getString(1));
+                section.setImageId(cursor.getInt(2));
+                section.setAmount(cursor.getString(3));
+
+                sectionList.add(section);
+            } while (cursor.moveToNext());
+        }
+        return sectionList;
+    }
+
+    public void addIncomeSection(Section section) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_INCOME_NAME, section.getNameSection());
+        values.put(KEY_SECTION_INCOME_IMG_ID, section.getImageId());
+        values.put(KEY_SECTION_INCOME_AMOUNT, section.getAmount());
+
+        db.insert(TABLE_SECTION_INCOME, null, values);
+        db.close();
+    }
+
+    public void addSpendingSection(Section section) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_SPENDING_NAME, section.getNameSection());
+        values.put(KEY_SECTION_SPENDING_IMG_ID, section.getImageId());
+        values.put(KEY_SECTION_SPENDING_AMOUNT, section.getAmount());
+
+        db.insert(TABLE_SECTION_SPENDING, null, values);
+        db.close();
+    }
+
+    public void addPlaningSection(Section section) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_PLANING_NAME, section.getNameSection());
+        values.put(KEY_SECTION_PLANING_IMG_ID, section.getImageId());
+        values.put(KEY_SECTION_PLANING_AMOUNT, section.getAmount());
+
+        db.insert(TABLE_SECTION_PLANING, null, values);
+        db.close();
+    }
+
+    public void deleteIncomeSection(String nameSection) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_INCOME, KEY_INCOME_NAME + " = ? ", new String[]{nameSection});
+        db.delete(TABLE_SECTION_INCOME, KEY_SECTION_INCOME_NAME + " = ? ", new String[]{nameSection});
+        db.close();
+    }
+
+    public void deleteSpendingSection(String nameSection) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SPENDING, KEY_SPENDING_NAME + " = ? ", new String[]{nameSection});
+        db.delete(TABLE_SECTION_SPENDING, KEY_SECTION_SPENDING_NAME + " = ? ", new String[]{nameSection});
+        db.close();
+    }
+
+    public void deletePlanSection(String nameSection) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? ", new String[]{nameSection});
+        db.delete(TABLE_SECTION_PLANING, KEY_SECTION_PLANING_NAME + " = ? ", new String[]{nameSection});
+        db.close();
+    }
+
+    public void updateIncomeSection(String oldName, String newName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_INCOME_NAME, newName);
+
+        db.update(TABLE_SECTION_INCOME, values, KEY_SECTION_INCOME_NAME + " = ? ", new String[] {oldName});
+        db.update(TABLE_INCOME, values, KEY_INCOME_NAME + " = ? ", new String[]{oldName});
+        db.close();
+
+    }
+    public void updateSpendingSection(String oldName, String newName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_SPENDING_NAME, newName);
+
+        db.update(TABLE_SECTION_SPENDING, values, KEY_SECTION_SPENDING_NAME + " = ? ", new String[] {oldName});
+        db.update(TABLE_SPENDING, values, KEY_SPENDING_NAME + " = ? ", new String[]{oldName});
+        db.close();
+
+    }
+    public void updatePlaningSection(String oldName, String newName) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_PLANING_NAME, newName);
+
+        db.update(TABLE_SECTION_PLANING, values, KEY_SECTION_PLANING_NAME + " = ? ", new String[] {oldName});
+        db.update(TABLE_PLANING, values, KEY_PLANING_NAME + " = ? ", new String[]{oldName});
+        db.close();
+
+    }
+    public void updateIncomeObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.close();
+
+    }
+
+    public void updateSpendingObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.close();
+    }
+
+    public void updatePlanObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.close();
+    }
+}

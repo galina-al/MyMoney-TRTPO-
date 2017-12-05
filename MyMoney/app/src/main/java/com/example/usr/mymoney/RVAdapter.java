@@ -17,6 +17,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
     List<Section> sections;
 
 
+    public RVAdapter(List<Section> sections) {
+        this.sections = sections;
+    }
+
     @Override
     public SectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cv_item, parent, false);
@@ -26,11 +30,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
 
     @Override
     public void onBindViewHolder(SectionViewHolder holder, int position) {
-        holder.sectionName.setText(sections.get(position).name);
+        holder.sectionName.setText(sections.get(position).nameSection);
         holder.sectionAmount.setText(sections.get(position).amount);
         holder.sectionImg.setImageResource(sections.get(position).imageId);
-        //holder.btnSection.setText(sections.get(position).name);
-        //holder.btnSection.setCompoundDrawablesWithIntrinsicBounds(sections.get(position).imageId, 0, 0, 0);
     }
 
     @Override
@@ -38,9 +40,22 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
         return this.sections.size();
     }
 
+    /*public int getSectionId(int position) {
+        return sections.get(position).sectionId;
+    }*/
+    public Section getItem(int position) {
+        return sections.get(position);
+    }
 
-    public RVAdapter(List<Section> sections) {
-        this.sections = sections;
+
+    public void remove(int position) {
+        sections.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void add(Section section, int position) {
+        sections.add(position, section);
+        notifyItemInserted(position);
     }
 
 
@@ -57,10 +72,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
             cardView = (CardView) itemView.findViewById(R.id.cv);
             //layout = (LinearLayout) itemView.findViewById(R.id.item_button);
             sectionName = (TextView) itemView.findViewById(R.id.section_name);
-            sectionAmount = (TextView) itemView.findViewById(R.id.amount);
+            sectionAmount = (TextView) itemView.findViewById(R.id.section_amount);
             sectionImg = (ImageView) itemView.findViewById(R.id.section_img);
             //btnSection = (Button) itemView.findViewById(R.id.btnSection);
         }
+
     }
 
 

@@ -5,13 +5,51 @@ package com.example.usr.mymoney;
  */
 
 public class Section {
-    protected String name;
-    protected int imageId;
-    protected String amount;
+    public int sectionId;
+    public String nameSection;
+    public int imageId;
+    public String amount;
 
-    public Section(String name, int imageId, String amount){
-        this.name = name;
+    public Section(int sectionId, String name, int imageId, String amount) {
+        this.sectionId = sectionId;
+        this.nameSection = name;
         this.imageId = imageId;
-        this.amount =  amount;
+        this.amount = amount;
+    }
+
+    public Section() {
+
+    }
+
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    public String getNameSection() {
+        return nameSection;
+    }
+
+    public void setNameSection(String name) {
+        this.nameSection = name;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

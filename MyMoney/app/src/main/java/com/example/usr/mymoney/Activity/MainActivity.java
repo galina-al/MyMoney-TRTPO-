@@ -1,16 +1,14 @@
 package com.example.usr.mymoney.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.Section;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     at.markushi.ui.CircleButton btn_income;
     at.markushi.ui.CircleButton btn_spending;
@@ -18,7 +16,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     at.markushi.ui.CircleButton btn_statistic;
     at.markushi.ui.CircleButton btn_exit;
     at.markushi.ui.CircleButton btn_info;
-    public static List<Section> sections;
+
+    DbHelper dbHelper;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_statistic.setOnClickListener(this);
         btn_exit.setOnClickListener(this);
         btn_info.setOnClickListener(this);
+
+        dbHelper = new DbHelper(this);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent2);
                 break;
             case R.id.btn_plans:
-                Intent intent3 = new Intent(this, PlansActivity.class);
+                Intent intent3 = new Intent(this, PlaningActivity.class);
                 startActivity(intent3);
                 break;
             case R.id.btn_statistic:
