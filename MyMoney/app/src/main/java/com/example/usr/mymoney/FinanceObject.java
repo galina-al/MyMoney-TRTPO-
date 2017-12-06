@@ -7,11 +7,11 @@ package com.example.usr.mymoney;
 public class FinanceObject {
 
     public String nameObj;
-    public String amount;
+    public Double amount;
     //Date
     public String date;
 
-    public FinanceObject(String nameObj, String amount, String date) {
+    public FinanceObject(String nameObj, Double amount, String date) {
         this.nameObj = nameObj;
         this.amount = amount;
         this.date = date;
@@ -21,7 +21,7 @@ public class FinanceObject {
         this.nameObj = nameObj;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -33,7 +33,7 @@ public class FinanceObject {
         return nameObj;
     }
 
-    public String getAmount() {
+    public Double getAmount() {
         return amount;
     }
 

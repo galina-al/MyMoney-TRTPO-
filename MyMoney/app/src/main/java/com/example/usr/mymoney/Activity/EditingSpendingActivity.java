@@ -75,7 +75,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
 
                         //Настраиваем сообщение в диалоговом окне:
                         mDialogBuilder
-                                .setCancelable(false)
+                                .setCancelable(true)
                                 .setPositiveButton("Ок",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
@@ -158,7 +158,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
 
                 //Настраиваем сообщение в диалоговом окне:
                 mDialogBuilder
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setPositiveButton("Добавить",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
@@ -179,10 +179,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
                                     }
                                 });
 
-                //Создаем AlertDialog:
                 AlertDialog alertDialog = mDialogBuilder.create();
-
-                //и отображаем его:
                 alertDialog.show();
                 break;
         }

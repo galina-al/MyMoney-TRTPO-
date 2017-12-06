@@ -124,12 +124,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        Double totalAmount = financeObject.amount;
 
-        values.put(KEY_INCOME_DATE, financeObject.getDate().toString());
+        values.put(KEY_INCOME_DATE, financeObject.getDate());
         values.put(KEY_INCOME_AMOUNT, financeObject.getAmount());
-        values.put(KEY_INCOME_NAME, financeObject.getNameObj().toString());
-
+        values.put(KEY_INCOME_NAME, financeObject.getNameObj());
         db.insert(TABLE_INCOME, null, values);
+
+        
         db.close();
 
     }
@@ -147,7 +149,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addToPlaning(FinanceObject financeObject) {
+    /*public void addToPlaning(FinanceObject financeObject) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -158,7 +160,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_PLANING, null, values);
         db.close();
-    }
+    }*/
 
     public void deleteIncomeObject(FinanceObject financeObject) {
 
@@ -319,42 +321,44 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(KEY_SECTION_INCOME_NAME, newName);
-        db.update(TABLE_SECTION_INCOME, values, KEY_SECTION_INCOME_NAME + " = ? ", new String[] {oldName});
+        db.update(TABLE_SECTION_INCOME, values, KEY_SECTION_INCOME_NAME + " = ? ", new String[]{oldName});
         values.clear();
         values.put(KEY_INCOME_NAME, newName);
         db.update(TABLE_INCOME, values, KEY_INCOME_NAME + " = ? ", new String[]{oldName});
         db.close();
 
     }
+
     public void updateSpendingSection(String oldName, String newName) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(KEY_SECTION_SPENDING_NAME, newName);
-        db.update(TABLE_SECTION_SPENDING, values, KEY_SECTION_SPENDING_NAME + " = ? ", new String[] {oldName});
+        db.update(TABLE_SECTION_SPENDING, values, KEY_SECTION_SPENDING_NAME + " = ? ", new String[]{oldName});
         values.clear();
         values.put(KEY_SPENDING_NAME, newName);
         db.update(TABLE_SPENDING, values, KEY_SPENDING_NAME + " = ? ", new String[]{oldName});
         db.close();
 
     }
-    public void updatePlaningSection(String oldName, String newName, String amount) {
+
+    public void updatePlaningSection(String  oldName, Section newSection) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_SECTION_PLANING_NAME, newName);
-        db.update(TABLE_SECTION_PLANING, values, KEY_SECTION_PLANING_NAME + " = ? ", new String[] {oldName});
+        values.put(KEY_SECTION_PLANING_NAME, newSection.getNameSection());
+        values.put(KEY_SECTION_PLANING_AMOUNT, newSection.getAmount());
+        db.update(TABLE_SECTION_PLANING, values, KEY_SECTION_PLANING_ID + "=" + newSection.getSectionId(), null);
+
         values.clear();
-        values.put(KEY_PLANING_NAME, newName);
+        values.put(KEY_PLANING_NAME, newSection.getNameSection());
         db.update(TABLE_PLANING, values, KEY_PLANING_NAME + " = ? ", new String[]{oldName});
-        values.clear();
-        values.put(KEY_SECTION_PLANING_AMOUNT, amount);
-        db.update(TABLE_SECTION_PLANING, values, KEY_SECTION_PLANING_AMOUNT + " = ? ", new String[]{newName});
         db.close();
 
     }
+
     public void updateIncomeObject(FinanceObject financeObject) {
 
         SQLiteDatabase db = this.getWritableDatabase();

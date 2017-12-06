@@ -43,7 +43,7 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+        df = new SimpleDateFormat("MMM yyyy");
 
         btn_add_plan_section = (ImageButton) findViewById(R.id.btn_add_plan_section);
         btn_add_plan_section.setOnClickListener(this);
@@ -96,27 +96,24 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                         final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_name_section);
                         final String oldName = sections.get(position).nameSection.toString();
                         edit_name_section.setText(oldName);
-                        edit_name_section.setTextColor(Integer.valueOf(R.color.colorPrimaryDark));
 
                         final EditText edit_amount_section = (EditText) promptsView.findViewById(R.id.edit_amount);
+                        String oldAmount = sections.get(position).getAmount();
+                        edit_amount_section.setText(oldAmount);
 
                         mDialogBuilder
-                                .setCancelable(false)
+                                .setCancelable(true)
                                 .setPositiveButton("Ок",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
                                                 final String newName = edit_name_section.getText().toString();
                                                 final String amountSection = edit_amount_section.getText().toString();
-                                                if (!amountSection.equals("") && newName != "" && newName != oldName) {
-
-                                                    //String date = df.format(Calendar.getInstance().getTime());
-                                                    //FinanceObject financeObject = new FinanceObject(newName, amountSection, date);
-                                                    //dbHelper.addToPlaning(financeObject);
+                                                if (!amountSection.equals("") && newName != "") {
 
                                                     Section updateSection = sections.get(position);
                                                     updateSection.setNameSection(newName);
-                                                    updateSection.setAmount(amountSection + " р.");
-                                                    dbHelper.updatePlaningSection(oldName, newName, amountSection);
+                                                    updateSection.setAmount(amountSection);
+                                                    dbHelper.updatePlaningSection(oldName, updateSection);
                                                     adapter.updateItem(updateSection, position);
 
                                                 }
@@ -169,7 +166,7 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                 final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
 
                 mDialogBuilder
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setPositiveButton("Добавить",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {

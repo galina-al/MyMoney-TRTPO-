@@ -60,7 +60,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
 
     public void updateItem(Section section, int position) {
         sections.set(position, section);
-        notifyItemInserted(position);
+        notifyItemChanged(position);
     }
 
     public static class SectionViewHolder extends RecyclerView.ViewHolder {

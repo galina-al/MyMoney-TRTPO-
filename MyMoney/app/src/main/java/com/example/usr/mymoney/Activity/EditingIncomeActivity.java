@@ -77,7 +77,7 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
 
                         //Настраиваем сообщение в диалоговом окне:
                         mDialogBuilder
-                                .setCancelable(false)
+                                .setCancelable(true)
                                 .setPositiveButton("Ок",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
@@ -143,7 +143,7 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
                 final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
 
                 mDialogBuilder
-                        .setCancelable(false)
+                        .setCancelable(true)
                         .setPositiveButton("Добавить",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
