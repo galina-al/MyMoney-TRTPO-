@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.example.usr.mymoney"
         minSdkVersion 21
         targetSdkVersion 26
@@ -30,5 +31,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.github.markushi:circlebutton:1.1'
     implementation 'com.android.support:cardview-v7:26.1.0'
-    compile 'jp.wasabeef:recyclerview-animators:2.2.7'
 }

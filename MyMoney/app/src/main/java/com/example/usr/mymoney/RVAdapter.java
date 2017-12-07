@@ -40,9 +40,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
         return this.sections.size();
     }
 
-    /*public int getSectionId(int position) {
-        return sections.get(position).sectionId;
-    }*/
     public Section getItem(int position) {
         return sections.get(position);
     }

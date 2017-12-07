@@ -7,31 +7,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.example.usr.mymoney.DataBase.DbHelper;
+import com.example.usr.mymoney.IncomeStatisticFragment;
 import com.example.usr.mymoney.R;
+import com.example.usr.mymoney.SpendingStatisticFragment;
 
 public class StatisticActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
+    FragmentPagerAdapter adapterViewPager;
     private ViewPager mViewPager;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +31,15 @@ public class StatisticActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-
+        ViewPager vpPager = (ViewPager) findViewById(R.id.view_pager);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_statistic, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar cv_item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -83,62 +54,95 @@ public class StatisticActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public PlaceholderFragment() {
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 2;
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_statistic, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
+        // Returns total number of pages
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 2;
+            return NUM_ITEMS;
         }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return SpendingStatisticFragment.newInstance(0, "Расходы");
+                case 1:
+                    return IncomeStatisticFragment.newInstance(1, "Доходы");
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            CharSequence title = "";
+            switch (position){
+                case 0:
+                    title = "Расходы";
+                    break;
+                case 1:
+                    title = "Доходы";
+                    break;
+            }
+            return title;
+        }
+
     }
 }
+
+/*pieChart = (PieChart) findViewById(R.id.pie_chart);
+        pieChart.setDescription("Sales by employee (In Thousands $)");
+        pieChart.setRotationEnabled(true);
+
+        pieChart.setHoleRadius(25f);
+        pieChart.setTransparentCircleAlpha(0);
+        pieChart.setCenterText("Super Cool chart");
+        pieChart.setCenterTextSize(10);
+
+        addDataSet(pieChart);
+
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry entry, int i, Highlight highlight) {
+
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });*/
+
+
+        /*PieChart chart = (PieChart) findViewById(R.id.pie_chart);
+
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(4f, 0));
+        entries.add(new Entry(8f, 1));
+        entries.add(new Entry(6f, 2));
+        entries.add(new Entry(12f, 3));
+        entries.add(new Entry(18f, 4));
+        entries.add(new Entry(9f, 5));
+
+        PieDataSet dataset = new PieDataSet(entries, "# of Calls");
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("Январь");
+        labels.add("Февраль");
+        labels.add("Март");
+        labels.add("Апрель");
+        labels.add("Май");
+        labels.add("Июнь");
+
+        PieData data = new PieData(labels, dataset);
+        chart.setData(data);
+        chart.invalidate();*/

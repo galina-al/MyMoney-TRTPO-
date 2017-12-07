@@ -2,10 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.example.usr.mymoney.Activity.StatisticActivity$PlaceholderFragment"
-    android:gravity="center">
+    tools:context="com.example.usr.mymoney.Activity.StatisticActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"
@@ -23,11 +22,13 @@
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="200dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#d4abf7" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_statistic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

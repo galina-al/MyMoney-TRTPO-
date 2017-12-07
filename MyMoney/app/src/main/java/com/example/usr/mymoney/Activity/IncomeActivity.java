@@ -44,7 +44,7 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+        df = new SimpleDateFormat("MM.yyyy");
 
         editIncome = (EditText) findViewById(R.id.edit_income);
         dbHelper = new DbHelper(this);
@@ -88,7 +88,7 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
                         if (!amountEditText.equals("")) {
 
                             String nameObj = sections.get(position).nameSection;
-                            String  amount = editIncome.getText().toString();
+                            Double  amount = Double.parseDouble(editIncome.getText().toString());
                             String date = df.format(Calendar.getInstance().getTime());
 
                             FinanceObject financeObject = new FinanceObject(nameObj, amount, date);

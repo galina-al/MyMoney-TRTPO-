@@ -43,7 +43,7 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        df = new SimpleDateFormat("MMM yyyy");
+        df = new SimpleDateFormat("MMM.yyyy");
 
         btn_add_plan_section = (ImageButton) findViewById(R.id.btn_add_plan_section);
         btn_add_plan_section.setOnClickListener(this);

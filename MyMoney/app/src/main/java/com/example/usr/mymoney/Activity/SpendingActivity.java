@@ -45,7 +45,7 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+        df = new SimpleDateFormat("MM.yyyy");
 
         editSpending = (EditText) findViewById(R.id.edit_spending);
         dbHelper = new DbHelper(this);
@@ -92,7 +92,7 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
                         if (!amountEditText.equals("")) {
 
                             String nameObj = sections.get(position).nameSection;
-                            String  amount = editSpending.getText().toString();
+                            Double  amount = Double.parseDouble(editSpending.getText().toString());
                             String date = df.format(Calendar.getInstance().getTime());
 
                             FinanceObject financeObject = new FinanceObject(nameObj, amount, date);

@@ -124,16 +124,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        Double totalAmount = financeObject.amount;
 
         values.put(KEY_INCOME_DATE, financeObject.getDate());
         values.put(KEY_INCOME_AMOUNT, financeObject.getAmount());
         values.put(KEY_INCOME_NAME, financeObject.getNameObj());
+
         db.insert(TABLE_INCOME, null, values);
-
-        
         db.close();
-
     }
 
     public void addToSpending(FinanceObject financeObject) {
@@ -161,6 +158,80 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(TABLE_PLANING, null, values);
         db.close();
     }*/
+
+    public List<String> getAllDate(int i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<String> allDate = new ArrayList<>();
+        Cursor cursor;
+        switch (i) {
+            case 1:
+                cursor = db.query(TABLE_SPENDING, new String[]{KEY_SPENDING_DATE},
+                        null, null, KEY_SPENDING_DATE, null, KEY_SPENDING_DATE);
+                if (cursor.moveToLast()) {
+                    do {
+                        allDate.add(cursor.getString(0));
+                    } while (cursor.moveToPrevious());
+                }
+                break;
+            case 2:
+                cursor = db.query(TABLE_INCOME, new String[]{KEY_INCOME_DATE},
+                        null, null, KEY_INCOME_DATE, null, KEY_INCOME_DATE);
+                if (cursor.moveToLast()) {
+                    do {
+                        allDate.add(cursor.getString(0));
+                    } while (cursor.moveToPrevious());
+                }
+                break;
+        }
+        db.close();
+        return allDate;
+    }
+
+    public List<Section> getTotalAmount(String date, int pageNumber) {
+
+        List<Section> sectionList = new ArrayList<Section>();
+        String[] columns = null;
+        String groupByInc = null;
+        String havingInc = null;
+        String groupBySpend = null;
+        String havingSpend = null;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        switch (pageNumber) {
+            case 1:
+                columns = new String[]{KEY_SPENDING_NAME, "SUM(amount) AS amount"};
+                groupBySpend = KEY_SPENDING_NAME + ", " + KEY_SPENDING_DATE;
+                havingSpend = KEY_SPENDING_DATE + " = " + date;
+                Cursor cursorSpending = db.query(TABLE_SPENDING, columns, null, null, groupBySpend, havingSpend, null);
+                if (cursorSpending.moveToFirst()) {
+                    do {
+                        Section section = new Section();
+                        section.setNameSection(cursorSpending.getString(0));
+                        section.setAmount(cursorSpending.getString(1));
+
+                        sectionList.add(section);
+                    } while (cursorSpending.moveToNext());
+                }
+                break;
+            case 2:
+                columns = new String[]{KEY_INCOME_NAME, "SUM(amount) AS amount"};
+                groupByInc = KEY_INCOME_NAME + ", " + KEY_INCOME_DATE;
+                havingInc = KEY_INCOME_DATE + " = " + date;
+                Cursor cursorIncome = db.query(TABLE_INCOME, columns, null, null, groupByInc, havingInc, null);
+                if (cursorIncome.moveToFirst()) {
+                    do {
+                        Section section = new Section();
+                        section.setNameSection(cursorIncome.getString(0));
+                        section.setAmount(cursorIncome.getString(1));
+
+                        sectionList.add(section);
+                    } while (cursorIncome.moveToNext());
+                }
+                break;
+        }
+        db.close();
+        return sectionList;
+    }
 
     public void deleteIncomeObject(FinanceObject financeObject) {
 
@@ -343,7 +414,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updatePlaningSection(String  oldName, Section newSection) {
+    public void updatePlaningSection(String oldName, Section newSection) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
