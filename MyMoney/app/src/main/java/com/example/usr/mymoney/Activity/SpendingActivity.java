@@ -30,7 +30,8 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
 
     protected List<Section> sections;
     public EditText editSpending;
-    public DateFormat df;
+    public DateFormat dateFormatf;
+    public DateFormat dayFormatf;
     public ImageButton im_editing_spending;
     public RVAdapter adapter;
 
@@ -45,7 +46,8 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        df = new SimpleDateFormat("MM.yyyy");
+        dateFormatf = new SimpleDateFormat("MM.yyyy");
+        dayFormatf = new SimpleDateFormat("dd.MM");
 
         editSpending = (EditText) findViewById(R.id.edit_spending);
         dbHelper = new DbHelper(this);
@@ -93,9 +95,10 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
 
                             String nameObj = sections.get(position).nameSection;
                             Double  amount = Double.parseDouble(editSpending.getText().toString());
-                            String date = df.format(Calendar.getInstance().getTime());
+                            String date = dateFormatf.format(Calendar.getInstance().getTime());
+                            String day = dayFormatf.format(Calendar.getInstance().getTime());
 
-                            FinanceObject financeObject = new FinanceObject(nameObj, amount, date);
+                            FinanceObject financeObject = new FinanceObject(nameObj, amount, date, day);
                             dbHelper.addToSpending(financeObject);
 
                             editSpending.setText("");

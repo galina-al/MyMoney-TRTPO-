@@ -1,20 +1,17 @@
 package com.example.usr.mymoney;
 
-/**
- * Created by usr on 01.12.2017.
- */
-
 public class FinanceObject {
 
     public String nameObj;
     public Double amount;
-    //Date
     public String date;
+    public String day;
 
-    public FinanceObject(String nameObj, Double amount, String date) {
+    public FinanceObject(String nameObj, Double amount, String date, String day) {
         this.nameObj = nameObj;
         this.amount = amount;
         this.date = date;
+        this.day = day;
     }
 
     public void setNameObj(String nameObj) {
@@ -28,6 +25,14 @@ public class FinanceObject {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public void setDay(String day) { this.day = day; }
+
+    public String getDay() {
+        return day;
+    }
+
+
 
     public String getNameObj() {
         return nameObj;

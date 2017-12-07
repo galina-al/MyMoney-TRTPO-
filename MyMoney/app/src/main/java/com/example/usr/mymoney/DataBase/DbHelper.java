@@ -1,8 +1,5 @@
 package com.example.usr.mymoney.DataBase;
 
-/**
- * Created by usr on 10.11.2017.
- */
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,7 +15,10 @@ import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final String LOG_TAG = "my_tag";
+    //region all Const
+    public static final String TABLE_CURRENT_COUNT = "current_count";
+    public static final String KEY_CURRENT_COUNT_ID = "id";
+    public static final String KEY_CURRENT_COUNT = "current_count";
 
     public static final String TABLE_INCOME = "income";
 
@@ -26,6 +26,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_INCOME_NAME = "name";
     public static final String KEY_INCOME_AMOUNT = "amount";
     public static final String KEY_INCOME_DATE = "date";
+    public static final String KEY_INCOME_DAY = "day";
 
     public static final String TABLE_SPENDING = "spending";
 
@@ -33,6 +34,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_SPENDING_NAME = "name";
     public static final String KEY_SPENDING_AMOUNT = "amount";
     public static final String KEY_SPENDING_DATE = "date";
+    public static final String KEY_SPENDING_DAY = "day";
+
 
     public static final String TABLE_PLANING = "planing";
 
@@ -40,6 +43,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_PLANING_NAME = "name";
     public static final String KEY_PLANING_AMOUNT = "amount";
     public static final String KEY_PLANING_DATE = "date";
+
 
     public static final String TABLE_SECTION_INCOME = "section_income";
 
@@ -64,6 +68,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "mymoneyDB";
     private static final int DATABASE_VERSION = 1;
+    //endregion
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,17 +77,23 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        db.execSQL("create table " + TABLE_CURRENT_COUNT + "("
+                + KEY_CURRENT_COUNT_ID + " integer primary key autoincrement, "
+                + KEY_CURRENT_COUNT + " text" + ");");
+
         db.execSQL("create table " + TABLE_INCOME + "("
                 + KEY_INCOME_ID + " integer primary key autoincrement, "
                 + KEY_INCOME_NAME + " text, "
                 + KEY_INCOME_AMOUNT + " text, "
-                + KEY_INCOME_DATE + " text" + ");");
+                + KEY_INCOME_DATE + " text, "
+                + KEY_INCOME_DAY + " text" + ");");
 
         db.execSQL("create table " + TABLE_SPENDING + "("
                 + KEY_SPENDING_ID + " integer primary key autoincrement, "
                 + KEY_SPENDING_NAME + " text, "
                 + KEY_SPENDING_AMOUNT + " text, "
-                + KEY_SPENDING_DATE + " text" + ");");
+                + KEY_SPENDING_DATE + " text, "
+                + KEY_SPENDING_DAY + " text" + ");");
 
         db.execSQL("create table " + TABLE_PLANING + "("
                 + KEY_PLANING_ID + " integer primary key autoincrement, "
@@ -111,6 +122,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CURRENT_COUNT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INCOME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SPENDING);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANING);
@@ -118,6 +130,18 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SECTION_SPENDING);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SECTION_PLANING);
         this.onCreate(db);
+    }
+
+    //region add to CurrentCount/Income/Spending and I/S/P Section
+    public void addToCurrCount(double currentCount) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_CURRENT_COUNT, currentCount);
+
+        db.insert(TABLE_CURRENT_COUNT, null, values);
+        db.close();
     }
 
     public void addToIncome(FinanceObject financeObject) {
@@ -146,19 +170,44 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    /*public void addToPlaning(FinanceObject financeObject) {
-
+    public void addIncomeSection(Section section) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_PLANING_NAME, financeObject.getNameObj());
-        values.put(KEY_PLANING_AMOUNT, financeObject.getAmount());
-        values.put(KEY_PLANING_DATE, financeObject.getDate());
+        values.put(KEY_SECTION_INCOME_NAME, section.getNameSection());
+        values.put(KEY_SECTION_INCOME_IMG_ID, section.getImageId());
+        values.put(KEY_SECTION_INCOME_AMOUNT, section.getAmount());
 
-        db.insert(TABLE_PLANING, null, values);
+        db.insert(TABLE_SECTION_INCOME, null, values);
         db.close();
-    }*/
+    }
 
+    public void addSpendingSection(Section section) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_SPENDING_NAME, section.getNameSection());
+        values.put(KEY_SECTION_SPENDING_IMG_ID, section.getImageId());
+        values.put(KEY_SECTION_SPENDING_AMOUNT, section.getAmount());
+
+        db.insert(TABLE_SECTION_SPENDING, null, values);
+        db.close();
+    }
+
+    public void addPlaningSection(Section section) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_SECTION_PLANING_NAME, section.getNameSection());
+        values.put(KEY_SECTION_PLANING_IMG_ID, section.getImageId());
+        values.put(KEY_SECTION_PLANING_AMOUNT, section.getAmount());
+
+        db.insert(TABLE_SECTION_PLANING, null, values);
+        db.close();
+    }
+    //endregion
+
+    //region get: AllDate/TotalAmount/AllSectionIncome/AllSectionSpending/AllSectionPlaning
     public List<String> getAllDate(int i) {
         SQLiteDatabase db = this.getWritableDatabase();
         List<String> allDate = new ArrayList<>();
@@ -233,35 +282,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return sectionList;
     }
 
-    public void deleteIncomeObject(FinanceObject financeObject) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_INCOME, KEY_INCOME_NAME + " = ? AND "
-                        + KEY_INCOME_AMOUNT + " = ? AND " + KEY_INCOME_DATE + " = ? ",
-                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
-                        financeObject.getDate()});
-        db.close();
-    }
-
-    public void deleteSpendingObject(FinanceObject financeObject) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_SPENDING, KEY_SPENDING_NAME + " = ? AND "
-                        + KEY_SPENDING_AMOUNT + " = ? AND " + KEY_SPENDING_DATE + " = ? ",
-                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
-                        financeObject.getDate()});
-        db.close();
-    }
-
-    public void deletePlaningObject(FinanceObject financeObject) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? AND "
-                        + KEY_PLANING_AMOUNT + " = ? AND " + KEY_PLANING_DATE + " = ? ",
-                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
-                        financeObject.getDate()});
-        db.close();
-    }
 
     public List<Section> getAllSectionIncome() {
         List<Section> sectionList = new ArrayList<Section>();
@@ -325,43 +345,9 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return sectionList;
     }
+    //endregion
 
-    public void addIncomeSection(Section section) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(KEY_SECTION_INCOME_NAME, section.getNameSection());
-        values.put(KEY_SECTION_INCOME_IMG_ID, section.getImageId());
-        values.put(KEY_SECTION_INCOME_AMOUNT, section.getAmount());
-
-        db.insert(TABLE_SECTION_INCOME, null, values);
-        db.close();
-    }
-
-    public void addSpendingSection(Section section) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(KEY_SECTION_SPENDING_NAME, section.getNameSection());
-        values.put(KEY_SECTION_SPENDING_IMG_ID, section.getImageId());
-        values.put(KEY_SECTION_SPENDING_AMOUNT, section.getAmount());
-
-        db.insert(TABLE_SECTION_SPENDING, null, values);
-        db.close();
-    }
-
-    public void addPlaningSection(Section section) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(KEY_SECTION_PLANING_NAME, section.getNameSection());
-        values.put(KEY_SECTION_PLANING_IMG_ID, section.getImageId());
-        values.put(KEY_SECTION_PLANING_AMOUNT, section.getAmount());
-
-        db.insert(TABLE_SECTION_PLANING, null, values);
-        db.close();
-    }
-
+    //region delete I/S/P Section and I/S/P Object
     public void deleteIncomeSection(String nameSection) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -383,6 +369,48 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? ", new String[]{nameSection});
         db.delete(TABLE_SECTION_PLANING, KEY_SECTION_PLANING_NAME + " = ? ", new String[]{nameSection});
+        db.close();
+    }
+
+    public void deleteIncomeObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_INCOME, KEY_INCOME_NAME + " = ? AND "
+                        + KEY_INCOME_AMOUNT + " = ? AND " + KEY_INCOME_DATE + " = ? ",
+                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
+                        financeObject.getDate()});
+        db.close();
+    }
+
+    public void deleteSpendingObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SPENDING, KEY_SPENDING_NAME + " = ? AND "
+                        + KEY_SPENDING_AMOUNT + " = ? AND " + KEY_SPENDING_DATE + " = ? ",
+                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
+                        financeObject.getDate()});
+        db.close();
+    }
+
+    public void deletePlaningObject(FinanceObject financeObject) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? AND "
+                        + KEY_PLANING_AMOUNT + " = ? AND " + KEY_PLANING_DATE + " = ? ",
+                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
+                        financeObject.getDate()});
+        db.close();
+    }
+    //endregion
+
+    //region update: CurrentCount  I/S/P Section and I/S/P Object
+    public void updateCurrentCount(Double currentCount) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_CURRENT_COUNT, currentCount);
+        db.update(TABLE_CURRENT_COUNT, values, KEY_CURRENT_COUNT_ID + " = ? ", new String[]{String.valueOf(1)});
         db.close();
     }
 
@@ -444,11 +472,5 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.close();
     }
-
-    public void updatePlaningObject(FinanceObject financeObject) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.close();
-    }
+    //endregion
 }
