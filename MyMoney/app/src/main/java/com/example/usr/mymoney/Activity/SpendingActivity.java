@@ -30,8 +30,8 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
 
     protected List<Section> sections;
     public EditText editSpending;
-    public DateFormat dateFormatf;
-    public DateFormat dayFormatf;
+    public DateFormat dateFormat;
+    public DateFormat dayFormat;
     public ImageButton im_editing_spending;
     public RVAdapter adapter;
 
@@ -46,8 +46,8 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        dateFormatf = new SimpleDateFormat("MM.yyyy");
-        dayFormatf = new SimpleDateFormat("dd.MM");
+        dateFormat = new SimpleDateFormat("MM.yyyy");
+        dayFormat = new SimpleDateFormat("dd.MM");
 
         editSpending = (EditText) findViewById(R.id.edit_spending);
         dbHelper = new DbHelper(this);
@@ -94,18 +94,17 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
                         if (!amountEditText.equals("")) {
 
                             String nameObj = sections.get(position).nameSection;
-                            Double  amount = Double.parseDouble(editSpending.getText().toString());
-                            String date = dateFormatf.format(Calendar.getInstance().getTime());
-                            String day = dayFormatf.format(Calendar.getInstance().getTime());
+                            double  amount = Double.parseDouble(editSpending.getText().toString());
+                            String date = dateFormat.format(Calendar.getInstance().getTime());
+                            String day = dayFormat.format(Calendar.getInstance().getTime());
 
                             FinanceObject financeObject = new FinanceObject(nameObj, amount, date, day);
                             dbHelper.addToSpending(financeObject);
+                            dbHelper.minusSpending(amount);
 
                             editSpending.setText("");
-                            //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                             recyclerView.requestFocus();
                             Toast.makeText(getApplicationContext(), "Сумма добавлена!", Toast.LENGTH_LONG).show();
-
                         }
                     }
 

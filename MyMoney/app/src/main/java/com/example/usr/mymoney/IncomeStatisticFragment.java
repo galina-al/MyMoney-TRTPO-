@@ -1,5 +1,6 @@
 package com.example.usr.mymoney;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.usr.mymoney.Activity.EditinigFinanceObjActivity;
 import com.example.usr.mymoney.DataBase.DbHelper;
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class IncomeStatisticFragment extends Fragment {
 
     // Inflate the view for the fragment based on layout XML
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_income_statistic, container, false);
 
@@ -63,9 +65,6 @@ public class IncomeStatisticFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // Получаем выбранный объект
-                //String item = (String) adapterView.getItemAtPosition(i);
-
 
                 sections = dbHelper.getTotalAmount(spinner.getSelectedItem().toString(), 2);
                 final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -81,6 +80,30 @@ public class IncomeStatisticFragment extends Fragment {
 
             }
         });
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, final int position) {
+
+                        Intent intent = new Intent(getContext(), EditinigFinanceObjActivity.class);
+                        intent.putExtra("name", sections.get(position).getNameSection());
+                        intent.putExtra("date", spinner.getSelectedItem().toString());
+                        intent.putExtra("imgId", sections.get(position).getImageId());
+                        intent.putExtra("number", 2);
+
+
+                        startActivity(intent);
+
+                    }
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                })
+        );
         return view;
+
     }
 }

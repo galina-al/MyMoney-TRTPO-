@@ -152,6 +152,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_INCOME_DATE, financeObject.getDate());
         values.put(KEY_INCOME_AMOUNT, financeObject.getAmount());
         values.put(KEY_INCOME_NAME, financeObject.getNameObj());
+        values.put(KEY_INCOME_DAY, financeObject.getDay());
 
         db.insert(TABLE_INCOME, null, values);
         db.close();
@@ -165,6 +166,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_SPENDING_NAME, financeObject.getNameObj());
         values.put(KEY_SPENDING_AMOUNT, financeObject.getAmount());
         values.put(KEY_SPENDING_DATE, financeObject.getDate());
+        values.put(KEY_SPENDING_DAY, financeObject.getDay());
 
         db.insert(TABLE_SPENDING, null, values);
         db.close();
@@ -208,6 +210,67 @@ public class DbHelper extends SQLiteOpenHelper {
     //endregion
 
     //region get: AllDate/TotalAmount/AllSectionIncome/AllSectionSpending/AllSectionPlaning
+
+    public List<FinanceObject> getOneSection(String nameObj, String date, int pageNumber) {
+
+        List<FinanceObject> objectList = new ArrayList<FinanceObject>();
+        String[] columns = null;
+        String selectionSpend = null;
+        String[] selectionArgsSpend = null;
+        String selectionInc = null;
+        String[] selectionArgsInc = null;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        switch (pageNumber) {
+            case 1:
+                columns = new String[]{KEY_SPENDING_NAME, KEY_SPENDING_AMOUNT, KEY_SPENDING_DAY};
+                selectionSpend = KEY_SPENDING_NAME + " = ? AND " + KEY_SPENDING_DATE + " = ? ";
+                selectionArgsSpend = new String[]{nameObj, date};
+                Cursor cursorSpending = db.query(TABLE_SPENDING, columns, selectionSpend, selectionArgsSpend, null, null, null);
+                if (cursorSpending.moveToFirst()) {
+                    do {
+                        FinanceObject financeObject = new FinanceObject();
+                        financeObject.setNameObj(cursorSpending.getString(0));
+                        financeObject.setAmount(cursorSpending.getDouble(1));
+                        financeObject.setDay(cursorSpending.getString(2));
+                        objectList.add(financeObject);
+                    } while (cursorSpending.moveToNext());
+                }
+                break;
+            case 2:
+                columns = new String[]{KEY_INCOME_NAME, KEY_INCOME_AMOUNT, KEY_INCOME_DAY};
+                selectionInc = KEY_INCOME_NAME + " = ? AND " + KEY_INCOME_DATE + " = ? ";
+                selectionArgsInc = new String[]{nameObj, date};
+                Cursor cursorIncome = db.query(TABLE_INCOME, columns, selectionInc, selectionArgsInc, null, null, null);
+                if (cursorIncome.moveToFirst()) {
+                    do {
+                        FinanceObject financeObject = new FinanceObject();
+                        financeObject.setNameObj(cursorIncome.getString(0));
+                        financeObject.setAmount(cursorIncome.getDouble(1));
+                        financeObject.setDay(cursorIncome.getString(2));
+                        objectList.add(financeObject);
+                    } while (cursorIncome.moveToNext());
+                }
+                break;
+        }
+        db.close();
+        return objectList;
+    }
+
+    public String getCurrentCount() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String currCount = "";
+        Cursor cursor = db.query(TABLE_CURRENT_COUNT, new String[]{KEY_CURRENT_COUNT},
+                KEY_CURRENT_COUNT_ID + " = ? ", new String[]{String.valueOf(1)},
+                null, null, null);
+        if (cursor.moveToLast()) {
+            do {
+                currCount = cursor.getString(0);
+            } while (cursor.moveToPrevious());
+        }
+        return currCount;
+    }
+
     public List<String> getAllDate(int i) {
         SQLiteDatabase db = this.getWritableDatabase();
         List<String> allDate = new ArrayList<>();
@@ -404,7 +467,7 @@ public class DbHelper extends SQLiteOpenHelper {
     //endregion
 
     //region update: CurrentCount  I/S/P Section and I/S/P Object
-    public void updateCurrentCount(Double currentCount) {
+    public void updateCurrentCount(double currentCount) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -473,4 +536,16 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
     //endregion
+
+    public void plusIncome(double income) {
+        double currentCount = Double.valueOf(getCurrentCount());
+        currentCount -= income;
+        updateCurrentCount(currentCount);
+    }
+
+    public void minusSpending(double income) {
+        double currentCount = Double.valueOf(getCurrentCount());
+        currentCount += income;
+        updateCurrentCount(currentCount);
+    }
 }

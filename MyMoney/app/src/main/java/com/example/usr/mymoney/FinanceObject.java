@@ -7,6 +7,9 @@ public class FinanceObject {
     public String date;
     public String day;
 
+    public FinanceObject() {
+    }
+
     public FinanceObject(String nameObj, Double amount, String date, String day) {
         this.nameObj = nameObj;
         this.amount = amount;
@@ -26,12 +29,13 @@ public class FinanceObject {
         this.date = date;
     }
 
-    public void setDay(String day) { this.day = day; }
+    public void setDay(String day) {
+        this.day = day;
+    }
 
     public String getDay() {
         return day;
     }
-
 
 
     public String getNameObj() {

@@ -31,8 +31,8 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
     public List<Section> sections;
     public EditText editIncome;
     ImageButton im_editing_income;
-    DateFormat dateFormatf;
-    DateFormat dayFormatf;
+    DateFormat dateFormat;
+    DateFormat dayFormat;
 
     DbHelper dbHelper;
 
@@ -44,9 +44,10 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        dateFormatf = new SimpleDateFormat("MM.yyyy");
-        dayFormatf = new SimpleDateFormat("dd.MM");
+        dateFormat = new SimpleDateFormat("MM.yyyy");
+        dayFormat = new SimpleDateFormat("dd.MM");
 
         editIncome = (EditText) findViewById(R.id.edit_income);
         dbHelper = new DbHelper(this);
@@ -90,15 +91,15 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
                         if (!amountEditText.equals("")) {
 
                             String nameObj = sections.get(position).nameSection;
-                            Double  amount = Double.parseDouble(editIncome.getText().toString());
-                            String date = dateFormatf.format(Calendar.getInstance().getTime());
-                            String day = dayFormatf.format(Calendar.getInstance().getTime());
+                            double  amount = Double.parseDouble(editIncome.getText().toString());
+                            String date = dateFormat.format(Calendar.getInstance().getTime());
+                            String day = dayFormat.format(Calendar.getInstance().getTime());
 
                             FinanceObject financeObject = new FinanceObject(nameObj, amount, date, day);
                             dbHelper.addToIncome(financeObject);
+                            dbHelper.plusIncome(amount);
 
                             editIncome.setText("");
-                            //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                             recyclerView.requestFocus();
                             Toast.makeText(getApplicationContext(), "Сумма добавлена!", Toast.LENGTH_LONG).show();
                         }

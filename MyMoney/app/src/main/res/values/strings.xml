@@ -23,4 +23,5 @@
     <string name="gifts">Подарки</string>
     <string name="title_activity_editing_income">EditingIncomeActivity</string>
     <string name="title_activity_editing_spending">EditingSpendingActivity</string>
+    <string name="title_activity_editinig_finance_obj">EditinigFinanceObjActivity</string>
 </resources>

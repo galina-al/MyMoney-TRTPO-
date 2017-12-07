@@ -43,6 +43,10 @@
         <activity
             android:name=".Activity.EditingSpendingActivity"
             android:label="@string/title_activity_editing_spending"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.EditinigFinanceObjActivity"
+            android:label="@string/title_activity_editinig_finance_obj"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
