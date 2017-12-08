@@ -1,4 +1,4 @@
-package com.example.usr.mymoney;
+package com.example.usr.mymoney.Entity;
 
 /**
  * Created by usr on 30.11.2017.

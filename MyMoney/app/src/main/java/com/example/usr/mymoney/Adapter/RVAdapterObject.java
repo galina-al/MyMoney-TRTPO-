@@ -1,4 +1,4 @@
-package com.example.usr.mymoney;
+package com.example.usr.mymoney.Adapter;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.usr.mymoney.Entity.FinanceObject;
+import com.example.usr.mymoney.R;
 
 import java.util.List;
 

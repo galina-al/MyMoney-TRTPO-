@@ -1,4 +1,4 @@
-package com.example.usr.mymoney;
+package com.example.usr.mymoney.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -15,9 +15,9 @@ import android.widget.Spinner;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.RVAdapterSection;
-import com.example.usr.mymoney.RecyclerItemClickListener;
-import com.example.usr.mymoney.Section;
+import com.example.usr.mymoney.Adapter.RVAdapterSection;
+import com.example.usr.mymoney.Adapter.RecyclerItemClickListener;
+import com.example.usr.mymoney.Entity.Section;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

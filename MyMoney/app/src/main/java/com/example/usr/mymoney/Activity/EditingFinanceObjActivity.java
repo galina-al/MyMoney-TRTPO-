@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
-import com.example.usr.mymoney.FinanceObject;
+import com.example.usr.mymoney.Entity.FinanceObject;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.RVAdapterObject;
-import com.example.usr.mymoney.RecyclerItemClickListener;
+import com.example.usr.mymoney.Adapter.RVAdapterObject;
+import com.example.usr.mymoney.Adapter.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

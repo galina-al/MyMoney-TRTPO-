@@ -7,8 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.usr.mymoney.FinanceObject;
-import com.example.usr.mymoney.Section;
+import com.example.usr.mymoney.Entity.FinanceObject;
+import com.example.usr.mymoney.Entity.Section;
 
 import java.util.ArrayList;
 import java.util.List;

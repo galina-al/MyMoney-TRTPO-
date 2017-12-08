@@ -1,4 +1,4 @@
-package com.example.usr.mymoney;
+package com.example.usr.mymoney.Entity;
 
 public class FinanceObject {
 
