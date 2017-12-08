@@ -73,7 +73,6 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
                         edit_name_section.setText(sections.get(position).getNameSection());
                         edit_name_section.setTextColor(Integer.valueOf(R.color.colorPrimaryDark));
 
-                        //Настраиваем сообщение в диалоговом окне:
                         mDialogBuilder
                                 .setCancelable(true)
                                 .setPositiveButton("Ок",
@@ -97,10 +96,8 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
                                             }
                                         });
 
-                        //Создаем AlertDialog:
                         AlertDialog alertDialog = mDialogBuilder.create();
 
-                        //и отображаем его:
                         alertDialog.show();
 
                     }

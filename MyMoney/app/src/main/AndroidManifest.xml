@@ -33,10 +33,6 @@
             android:label="@string/title_activity_plans"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.InfoActivity"
-            android:label="@string/title_activity_info"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activity.EditingIncomeActivity"
             android:label="@string/title_activity_editing_income"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -51,6 +47,10 @@
         <activity
             android:name=".Activity.EditingOneObjActivity"
             android:label="@string/title_activity_editing_one_obj"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.InfoActivity"
+            android:label="@string/title_activity_info"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
