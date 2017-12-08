@@ -5,19 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder> {
+public class RVAdapterSection extends RecyclerView.Adapter<RVAdapterSection.SectionViewHolder> {
 
     List<Section> sections;
 
 
-    public RVAdapter(List<Section> sections) {
+    public RVAdapterSection(List<Section> sections) {
         this.sections = sections;
     }
 
@@ -30,9 +29,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
 
     @Override
     public void onBindViewHolder(SectionViewHolder holder, int position) {
-        holder.sectionName.setText(sections.get(position).nameSection);
-        holder.sectionAmount.setText(sections.get(position).amount);
-        holder.sectionImg.setImageResource(sections.get(position).imageId);
+        holder.sectionName.setText(sections.get(position).getNameSection());
+        holder.sectionAmount.setText(sections.get(position).getAmount());
+        holder.sectionImg.setImageResource(sections.get(position).getImageId());
+        holder.sectionPercent.setText(sections.get(position).getPercent());
     }
 
     @Override
@@ -60,22 +60,25 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.SectionViewHolder>
         notifyItemChanged(position);
     }
 
+    public void updateAll(List<Section> sectionList){
+        sections = sectionList;
+        notifyItemRangeChanged(1, sectionList.size());
+    }
     public static class SectionViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        //LinearLayout layout;
         TextView sectionName;
-        TextView sectionAmount;
         ImageView sectionImg;
-        Button btnSection;
+        TextView sectionAmount;
+        TextView sectionPercent;
 
         SectionViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.cv);
-            //layout = (LinearLayout) itemView.findViewById(R.id.item_button);
             sectionName = (TextView) itemView.findViewById(R.id.section_name);
-            sectionAmount = (TextView) itemView.findViewById(R.id.section_amount);
             sectionImg = (ImageView) itemView.findViewById(R.id.section_img);
-            //btnSection = (Button) itemView.findViewById(R.id.btnSection);
+            sectionAmount = (TextView) itemView.findViewById(R.id.section_amount);
+            sectionPercent = (TextView) itemView.findViewById(R.id.section_percent);
+
         }
 
     }

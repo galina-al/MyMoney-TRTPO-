@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.RVAdapter;
+import com.example.usr.mymoney.RVAdapterSection;
 import com.example.usr.mymoney.RecyclerItemClickListener;
 import com.example.usr.mymoney.Section;
 
@@ -23,13 +23,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class EditingIncomeActivity extends AppCompatActivity implements View.OnClickListener{
+public class EditingIncomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected List<Section> sections;
     ImageButton btn_add_inc_section;
     DateFormat df;
 
-    RVAdapter adapter;
+    RVAdapterSection adapter;
 
     DbHelper dbHelper;
 
@@ -56,7 +56,7 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RVAdapter(sections);
+        adapter = new RVAdapterSection(sections);
 
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(
@@ -151,7 +151,7 @@ public class EditingIncomeActivity extends AppCompatActivity implements View.OnC
                                         if (!nameSection.equals("")) {
 
                                             int newPosition = sections.size();
-                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "");
+                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "", "");
                                             adapter.addItem(newSection, newPosition);
                                             dbHelper.addIncomeSection(newSection);
                                         }

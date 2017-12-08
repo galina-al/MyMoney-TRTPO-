@@ -2,13 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.usr.mymoney.Activity.StatisticActivity">
-    <group />
 
     <item
         android:id="@+id/current_count"
         android:orderInCategory="300"
-        android:title="250.00"
         android:actionLayout="@layout/activity_main"
-        app:showAsAction="ifRoom|collapseActionView"
-        />
+        app:showAsAction="always"
+        android:title="" />
 </menu>

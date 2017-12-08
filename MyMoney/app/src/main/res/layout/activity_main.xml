@@ -31,17 +31,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="My"
-            android:textAlignment="textEnd"
+            android:gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
             android:textStyle="bold" />
 
-        <Space
-            android:layout_width="450dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -50,7 +45,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="196dp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
             android:layout_height="wrap_content"
             android:text="Money"
             android:textAlignment="textEnd"
@@ -88,14 +84,15 @@
                 android:id="@+id/layout_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="20dp">
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_income"
                     android:layout_width="90dip"
                     android:layout_height="90dip"
                     android:src="@drawable/finance"
-                    app:cb_color="#9cb8da"
+                    app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
 
                 <TextView
@@ -112,14 +109,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/layout_income"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp">
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_spending"
                     android:layout_width="90dip"
                     android:layout_height="90dip"
                     android:src="@drawable/costs"
-                    app:cb_color="#9cb8da"
+                    app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
 
                 <TextView
@@ -143,14 +141,15 @@
                 android:id="@+id/layout_plans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="20dp">
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_plans"
                     android:layout_width="90dip"
                     android:layout_height="90dip"
                     android:src="@drawable/plans"
-                    app:cb_color="#9cb8da"
+                    app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
 
                 <TextView
@@ -166,14 +165,15 @@
                 android:id="@+id/layout_statistic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp">
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_statistic"
                     android:layout_width="90dip"
                     android:layout_height="90dip"
                     android:src="@drawable/statistic"
-                    app:cb_color="#9cb8da"
+                    app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
 
                 <TextView
@@ -200,14 +200,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/layout_plans"
                 android:layout_below="@id/layout_plans"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="20dp">
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_exit"
                     android:layout_width="90dip"
                     android:layout_height="90dip"
                     android:src="@drawable/exit"
-                    app:cb_color="#ffffff"
+                    app:cb_color="@color/background"
                     app:cb_pressedRingWidth="8dip" />
 
                 <TextView
@@ -225,14 +226,15 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_statistic"
                 android:layout_toRightOf="@id/layout_exit"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp">
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_info"
                     android:layout_width="90dip"
                     android:layout_height="90dip"
                     android:src="@drawable/info"
-                    app:cb_color="#ffffff"
+                    app:cb_color="@color/background"
                     app:cb_pressedRingWidth="8dip" />
 
                 <TextView

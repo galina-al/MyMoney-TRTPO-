@@ -59,7 +59,7 @@
             android:id="@+id/im_editing_income"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:backgroundTint="@android:color/white"
+            android:backgroundTint="@color/background"
             android:contentDescription="TODO"
             app:srcCompat="@drawable/pencil_20" />
 

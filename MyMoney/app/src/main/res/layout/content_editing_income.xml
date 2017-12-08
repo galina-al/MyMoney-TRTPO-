@@ -17,21 +17,18 @@
         android:orientation="horizontal">
 
         <Space
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="90" />
 
         <ImageButton
             android:id="@+id/btn_add_inc_section"
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
-            android:backgroundTint="@android:color/white"
+            android:layout_weight="10"
+            android:backgroundTint="@color/background"
             app:srcCompat="@drawable/plus" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
 
     </LinearLayout>
 

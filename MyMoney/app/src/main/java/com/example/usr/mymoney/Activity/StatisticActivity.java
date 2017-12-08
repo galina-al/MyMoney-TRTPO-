@@ -7,18 +7,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
-import com.example.usr.mymoney.IncomeStatisticFragment;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.SpendingStatisticFragment;
 
 public class StatisticActivity extends AppCompatActivity {
 
     FragmentPagerAdapter adapterViewPager;
-    private ViewPager mViewPager;
     DbHelper dbHelper;
+    public Menu menu;
+    public double currentCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,26 @@ public class StatisticActivity extends AppCompatActivity {
         ViewPager vpPager = (ViewPager) findViewById(R.id.view_pager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
+
+        dbHelper = new DbHelper(this);
+        currentCount = MainActivity.getCurrentCount(dbHelper, currentCount);
+
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        currentCount = Double.valueOf(dbHelper.getCurrentCount());
+        menu.getItem(0).setTitle(String.valueOf(currentCount));
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_statistic, menu);
+        menu.getItem(0).setTitle(String.valueOf(currentCount));
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -84,7 +101,7 @@ public class StatisticActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             CharSequence title = "";
-            switch (position){
+            switch (position) {
                 case 0:
                     title = "Расходы";
                     break;

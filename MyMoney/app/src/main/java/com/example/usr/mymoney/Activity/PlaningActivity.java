@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -15,71 +16,45 @@ import android.widget.ImageButton;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.RVAdapter;
+import com.example.usr.mymoney.RVAdapterSection;
 import com.example.usr.mymoney.RecyclerItemClickListener;
 import com.example.usr.mymoney.Section;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlaningActivity extends AppCompatActivity implements View.OnClickListener {
 
-    protected List<Section> sections;
-    ImageButton btn_add_plan_section;
-    DateFormat df;
-
-    RVAdapter adapter;
-
-    DbHelper dbHelper;
+    private Menu menu;
+    private RVAdapterSection adapter;
+    private DbHelper dbHelper;
+    private List<Section> sections;
+    private double currentCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planing);
+
+        //region Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //endregion
 
-        df = new SimpleDateFormat("MMM.yyyy");
-
-        btn_add_plan_section = (ImageButton) findViewById(R.id.btn_add_plan_section);
+        ImageButton btn_add_plan_section = (ImageButton) findViewById(R.id.btn_add_plan_section);
         btn_add_plan_section.setOnClickListener(this);
 
         dbHelper = new DbHelper(this);
-
-        List<Section> listFromDB = dbHelper.getAllSectionPlaning();
-
-        if (listFromDB.size() == 0) {
-
-            sections = new ArrayList<>();
-            sections.add(new Section(1, "Питание", R.drawable.food, ""));
-            sections.add(new Section(2, "Одежда", R.drawable.trousers, ""));
-            sections.add(new Section(3, "Подарки", R.drawable.gift, ""));
-            sections.add(new Section(4, "Гигиена", R.drawable.shower, ""));
-            sections.add(new Section(5, "Медицина", R.drawable.medical, ""));
-            sections.add(new Section(6, "Спорт", R.drawable.sport, ""));
-            sections.add(new Section(7, "Бары и Кафе", R.drawable.bar, ""));
-
-            dbHelper.addPlaningSection(new Section(1, "Питание", R.drawable.food, ""));
-            dbHelper.addPlaningSection(new Section(2, "Одежда", R.drawable.trousers, ""));
-            dbHelper.addPlaningSection(new Section(3, "Подарки", R.drawable.gift, ""));
-            dbHelper.addPlaningSection(new Section(4, "Гигиена", R.drawable.shower, ""));
-            dbHelper.addPlaningSection(new Section(5, "Медицина", R.drawable.medical, ""));
-            dbHelper.addPlaningSection(new Section(5, "Спорт", R.drawable.sport, ""));
-            dbHelper.addPlaningSection(new Section(5, "Бары и Кафе", R.drawable.bar, ""));
-        } else {
-            sections = listFromDB;
-        }
+        sections = getSectionsPlaning();
+        currentCount = MainActivity.getCurrentCount(dbHelper, currentCount);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_planing);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RVAdapter(sections);
-
+        adapter = new RVAdapterSection(sections);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(
@@ -115,7 +90,6 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                                                     updateSection.setAmount(amountSection);
                                                     dbHelper.updatePlaningSection(oldName, updateSection);
                                                     adapter.updateItem(updateSection, position);
-
                                                 }
                                             }
                                         })
@@ -129,16 +103,22 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                                         });
                         AlertDialog alertDialog = mDialogBuilder.create();
                         alertDialog.show();
-
                     }
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        // do whatever
                     }
                 })
         );
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_statistic, menu);
+        menu.getItem(0).setTitle(String.valueOf(currentCount));
+        return true;
     }
 
     @Override
@@ -174,7 +154,7 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                                         if (!nameSection.equals("")) {
 
                                             int newPosition = sections.size();
-                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "");
+                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "","");
                                             adapter.addItem(newSection, newPosition);
                                             dbHelper.addPlaningSection(newSection);
                                         }
@@ -190,5 +170,34 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                 alertDialog.show();
                 break;
         }
+    }
+
+    public List<Section> getSectionsPlaning(){
+        List<Section> listFromDB = dbHelper.getAllSectionPlaning();
+
+        if (listFromDB.size() == 0) {
+
+            sections = new ArrayList<>();
+            sections.add(new Section(1, "Питание", R.drawable.food, "", ""));
+            sections.add(new Section(2, "Одежда", R.drawable.trousers, "", ""));
+            sections.add(new Section(3, "Подарки", R.drawable.gift, "", ""));
+            sections.add(new Section(4, "Быт", R.drawable.home, "", ""));
+            sections.add(new Section(7, "Транспорт", R.drawable.car, "", ""));
+            sections.add(new Section(5, "Медицина", R.drawable.medical, "", ""));
+            sections.add(new Section(6, "Спорт", R.drawable.sport, "", ""));
+            sections.add(new Section(7, "Развлечения", R.drawable.bowling, "", ""));
+
+            dbHelper.addPlaningSection(new Section(1, "Питание", R.drawable.food, "", ""));
+            dbHelper.addPlaningSection(new Section(2, "Одежда", R.drawable.trousers, "", ""));
+            dbHelper.addPlaningSection(new Section(3, "Подарки", R.drawable.gift, "", ""));
+            dbHelper.addPlaningSection(new Section(4, "Быт", R.drawable.home, "", ""));
+            dbHelper.addPlaningSection(new Section(7, "Транспорт", R.drawable.car, "", ""));
+            dbHelper.addPlaningSection(new Section(5, "Медицина", R.drawable.medical, "", ""));
+            dbHelper.addPlaningSection(new Section(5, "Спорт", R.drawable.sport, "", ""));
+            dbHelper.addPlaningSection(new Section(5, "Развлечения", R.drawable.bowling, "", ""));
+        } else {
+            sections = listFromDB;
+        }
+        return sections;
     }
 }

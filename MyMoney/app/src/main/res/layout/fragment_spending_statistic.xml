@@ -4,7 +4,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:orientation="vertical"
-tools:context="com.example.usr.mymoney.SpendingStatisticFragment">
+tools:context="com.example.usr.mymoney.Activity.SpendingStatisticFragment">
 
 <TextView
     android:layout_width="wrap_content"

@@ -9,16 +9,26 @@ public class Section {
     public String nameSection;
     public int imageId;
     public String amount;
+    public String percent;
 
-    public Section(int sectionId, String name, int imageId, String amount) {
+    public Section(int sectionId, String name, int imageId, String amount, String percent) {
         this.sectionId = sectionId;
         this.nameSection = name;
         this.imageId = imageId;
         this.amount = amount;
+        this.percent = percent;
     }
 
     public Section() {
 
+    }
+
+    public String getPercent() {
+        return percent;
+    }
+
+    public void setPercent(String percent) {
+        this.percent = percent;
     }
 
     public int getSectionId() {

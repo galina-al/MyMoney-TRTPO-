@@ -45,8 +45,12 @@
             android:label="@string/title_activity_editing_spending"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.EditinigFinanceObjActivity"
+            android:name=".Activity.EditingFinanceObjActivity"
             android:label="@string/title_activity_editinig_finance_obj"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.EditingOneObjActivity"
+            android:label="@string/title_activity_editing_one_obj"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

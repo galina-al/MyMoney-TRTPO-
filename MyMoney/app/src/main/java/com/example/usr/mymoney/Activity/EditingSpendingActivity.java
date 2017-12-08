@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 
 import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.RVAdapter;
+import com.example.usr.mymoney.RVAdapterSection;
 import com.example.usr.mymoney.RecyclerItemClickListener;
 import com.example.usr.mymoney.Section;
 
@@ -23,13 +23,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class EditingSpendingActivity extends AppCompatActivity implements View.OnClickListener{
+public class EditingSpendingActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected List<Section> sections;
     ImageButton btn_add_spend_section;
     DateFormat df;
 
-    RVAdapter adapter;
+    RVAdapterSection adapter;
 
     DbHelper dbHelper;
 
@@ -52,7 +52,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new RVAdapter(sections);
+        adapter = new RVAdapterSection(sections);
 
         recyclerView.setAdapter(adapter);
 
@@ -117,17 +117,6 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
 
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_editing_spending);
-        List<Section> listFromDB = dbHelper.getAllSectionSpending();
-        sections = listFromDB;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new RVAdapter(sections);
-        recyclerView.setAdapter(adapter);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,20 +132,15 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_spend_section:
-                //Получаем вид с файла prompt.xml, который применим для диалогового окна:
                 LayoutInflater li = LayoutInflater.from(this);
                 View promptsView = li.inflate(R.layout.name_section, null);
 
-                //Создаем AlertDialog
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(this);
 
-                //Настраиваем prompt.xml для нашего AlertDialog:
                 mDialogBuilder.setView(promptsView);
 
-                //Настраиваем отображение поля для ввода текста в открытом диалоге:
                 final EditText edit_name_section = (EditText) promptsView.findViewById(R.id.edit_new_name);
 
-                //Настраиваем сообщение в диалоговом окне:
                 mDialogBuilder
                         .setCancelable(true)
                         .setPositiveButton("Добавить",
@@ -166,7 +150,7 @@ public class EditingSpendingActivity extends AppCompatActivity implements View.O
                                         if (!nameSection.equals("")) {
 
                                             int newPosition = sections.size();
-                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "");
+                                            Section newSection = new Section(newPosition, nameSection, R.drawable.star, "", "");
                                             adapter.addItem(newSection, newPosition);
                                             dbHelper.addSpendingSection(newSection);
                                         }

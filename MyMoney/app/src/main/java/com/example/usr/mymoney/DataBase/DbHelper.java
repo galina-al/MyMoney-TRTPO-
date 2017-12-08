@@ -23,6 +23,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_INCOME = "income";
 
     public static final String KEY_INCOME_ID = "_id1";
+    public static final String KEY_INCOME_IMG_ID = "imgId";
     public static final String KEY_INCOME_NAME = "name";
     public static final String KEY_INCOME_AMOUNT = "amount";
     public static final String KEY_INCOME_DATE = "date";
@@ -31,6 +32,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_SPENDING = "spending";
 
     public static final String KEY_SPENDING_ID = "_id2";
+    public static final String KEY_SPENDING_IMG_ID = "imgId";
     public static final String KEY_SPENDING_NAME = "name";
     public static final String KEY_SPENDING_AMOUNT = "amount";
     public static final String KEY_SPENDING_DATE = "date";
@@ -83,6 +85,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + TABLE_INCOME + "("
                 + KEY_INCOME_ID + " integer primary key autoincrement, "
+                + KEY_INCOME_IMG_ID + " text, "
                 + KEY_INCOME_NAME + " text, "
                 + KEY_INCOME_AMOUNT + " text, "
                 + KEY_INCOME_DATE + " text, "
@@ -90,6 +93,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table " + TABLE_SPENDING + "("
                 + KEY_SPENDING_ID + " integer primary key autoincrement, "
+                + KEY_SPENDING_IMG_ID + " text, "
                 + KEY_SPENDING_NAME + " text, "
                 + KEY_SPENDING_AMOUNT + " text, "
                 + KEY_SPENDING_DATE + " text, "
@@ -149,9 +153,10 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_INCOME_DATE, financeObject.getDate());
-        values.put(KEY_INCOME_AMOUNT, financeObject.getAmount());
+        values.put(KEY_INCOME_IMG_ID, financeObject.getImgId());
         values.put(KEY_INCOME_NAME, financeObject.getNameObj());
+        values.put(KEY_INCOME_AMOUNT, financeObject.getAmount());
+        values.put(KEY_INCOME_DATE, financeObject.getDate());
         values.put(KEY_INCOME_DAY, financeObject.getDay());
 
         db.insert(TABLE_INCOME, null, values);
@@ -163,6 +168,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        values.put(KEY_SPENDING_IMG_ID, financeObject.getImgId());
         values.put(KEY_SPENDING_NAME, financeObject.getNameObj());
         values.put(KEY_SPENDING_AMOUNT, financeObject.getAmount());
         values.put(KEY_SPENDING_DATE, financeObject.getDate());
@@ -211,6 +217,26 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //region get: AllDate/TotalAmount/AllSectionIncome/AllSectionSpending/AllSectionPlaning
 
+    public double getTotalIncome() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        double totalIncome = 0;
+        Cursor cursor = db.query(TABLE_INCOME, new String[]{"SUM(amount) AS amount"}, null, null, null, null, null);
+        if (cursor.moveToLast()) {
+            totalIncome = cursor.getDouble(0);
+        }
+        return totalIncome;
+    }
+
+    public double getTotalSpending() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        double totalSpending = 0;
+        Cursor cursor = db.query(TABLE_SPENDING, new String[]{"SUM(amount) AS amount"}, null, null, null, null, null);
+        if (cursor.moveToLast()) {
+            totalSpending = cursor.getDouble(0);
+        }
+        return totalSpending;
+    }
+
     public List<FinanceObject> getOneSection(String nameObj, String date, int pageNumber) {
 
         List<FinanceObject> objectList = new ArrayList<FinanceObject>();
@@ -223,37 +249,38 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         switch (pageNumber) {
             case 1:
-                columns = new String[]{KEY_SPENDING_NAME, KEY_SPENDING_AMOUNT, KEY_SPENDING_DAY};
+                columns = new String[]{KEY_SPENDING_ID, KEY_SPENDING_IMG_ID, KEY_SPENDING_NAME, KEY_SPENDING_AMOUNT, KEY_SPENDING_DAY};
                 selectionSpend = KEY_SPENDING_NAME + " = ? AND " + KEY_SPENDING_DATE + " = ? ";
                 selectionArgsSpend = new String[]{nameObj, date};
-                Cursor cursorSpending = db.query(TABLE_SPENDING, columns, selectionSpend, selectionArgsSpend, null, null, null);
-                if (cursorSpending.moveToFirst()) {
-                    do {
-                        FinanceObject financeObject = new FinanceObject();
-                        financeObject.setNameObj(cursorSpending.getString(0));
-                        financeObject.setAmount(cursorSpending.getDouble(1));
-                        financeObject.setDay(cursorSpending.getString(2));
-                        objectList.add(financeObject);
-                    } while (cursorSpending.moveToNext());
-                }
+                Cursor cursorSpending = db.query(TABLE_SPENDING, columns, selectionSpend, selectionArgsSpend,
+                        null, null, null);
+                createFinList(cursorSpending, objectList);
                 break;
             case 2:
-                columns = new String[]{KEY_INCOME_NAME, KEY_INCOME_AMOUNT, KEY_INCOME_DAY};
+                columns = new String[]{KEY_INCOME_ID, KEY_INCOME_IMG_ID, KEY_INCOME_NAME, KEY_INCOME_AMOUNT, KEY_INCOME_DAY};
                 selectionInc = KEY_INCOME_NAME + " = ? AND " + KEY_INCOME_DATE + " = ? ";
                 selectionArgsInc = new String[]{nameObj, date};
-                Cursor cursorIncome = db.query(TABLE_INCOME, columns, selectionInc, selectionArgsInc, null, null, null);
-                if (cursorIncome.moveToFirst()) {
-                    do {
-                        FinanceObject financeObject = new FinanceObject();
-                        financeObject.setNameObj(cursorIncome.getString(0));
-                        financeObject.setAmount(cursorIncome.getDouble(1));
-                        financeObject.setDay(cursorIncome.getString(2));
-                        objectList.add(financeObject);
-                    } while (cursorIncome.moveToNext());
-                }
+                Cursor cursorIncome = db.query(TABLE_INCOME, columns, selectionInc, selectionArgsInc,
+                        null, null, null);
+                createFinList(cursorIncome, objectList);
                 break;
         }
         db.close();
+        return objectList;
+    }
+
+    public List<FinanceObject> createFinList(Cursor cursor, List<FinanceObject> objectList) {
+        if (cursor.moveToFirst()) {
+            do {
+                FinanceObject financeObject = new FinanceObject();
+                financeObject.setObjId(cursor.getInt(0));
+                financeObject.setImgId(cursor.getInt(1));
+                financeObject.setNameObj(cursor.getString(2));
+                financeObject.setAmount(cursor.getDouble(3));
+                financeObject.setDay(cursor.getString(4));
+                objectList.add(financeObject);
+            } while (cursor.moveToNext());
+        }
         return objectList;
     }
 
@@ -267,7 +294,8 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 currCount = cursor.getString(0);
             } while (cursor.moveToPrevious());
-        }
+        } else
+            currCount = "";
         return currCount;
     }
 
@@ -311,33 +339,35 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         switch (pageNumber) {
             case 1:
-                columns = new String[]{KEY_SPENDING_NAME, "SUM(amount) AS amount"};
+                columns = new String[]{KEY_SPENDING_IMG_ID, KEY_SPENDING_NAME, "SUM(amount) AS amount"};
                 groupBySpend = KEY_SPENDING_NAME + ", " + KEY_SPENDING_DATE;
                 havingSpend = KEY_SPENDING_DATE + " = " + date;
-                Cursor cursorSpending = db.query(TABLE_SPENDING, columns, null, null, groupBySpend, havingSpend, null);
-                if (cursorSpending.moveToFirst()) {
+                Cursor cursorSpending = db.query(TABLE_SPENDING, columns, null, null, groupBySpend, havingSpend, KEY_SPENDING_AMOUNT);
+                if (cursorSpending.moveToLast()) {
                     do {
                         Section section = new Section();
-                        section.setNameSection(cursorSpending.getString(0));
-                        section.setAmount(cursorSpending.getString(1));
+                        section.setImageId(cursorSpending.getInt(0));
+                        section.setNameSection(cursorSpending.getString(1));
+                        section.setAmount(cursorSpending.getString(2));
 
                         sectionList.add(section);
-                    } while (cursorSpending.moveToNext());
+                    } while (cursorSpending.moveToPrevious());
                 }
                 break;
             case 2:
-                columns = new String[]{KEY_INCOME_NAME, "SUM(amount) AS amount"};
+                columns = new String[]{KEY_INCOME_IMG_ID, KEY_INCOME_NAME, "SUM(amount) AS amount"};
                 groupByInc = KEY_INCOME_NAME + ", " + KEY_INCOME_DATE;
                 havingInc = KEY_INCOME_DATE + " = " + date;
-                Cursor cursorIncome = db.query(TABLE_INCOME, columns, null, null, groupByInc, havingInc, null);
-                if (cursorIncome.moveToFirst()) {
+                Cursor cursorIncome = db.query(TABLE_INCOME, columns, null, null, groupByInc, havingInc, KEY_INCOME_AMOUNT);
+                if (cursorIncome.moveToLast()) {
                     do {
                         Section section = new Section();
-                        section.setNameSection(cursorIncome.getString(0));
-                        section.setAmount(cursorIncome.getString(1));
+                        section.setImageId(cursorIncome.getInt(0));
+                        section.setNameSection(cursorIncome.getString(1));
+                        section.setAmount(cursorIncome.getString(2));
 
                         sectionList.add(section);
-                    } while (cursorIncome.moveToNext());
+                    } while (cursorIncome.moveToPrevious());
                 }
                 break;
         }
@@ -345,6 +375,29 @@ public class DbHelper extends SQLiteOpenHelper {
         return sectionList;
     }
 
+    public int getImgSectionByName(String name, int i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int imgId = 0;
+        Cursor cursor;
+        switch (i) {
+            case 1:
+                cursor = db.query(TABLE_SECTION_SPENDING, new String[]{KEY_SECTION_SPENDING_IMG_ID},
+                        KEY_SECTION_SPENDING_NAME + " = ? ", new String[]{name}, null, null, null);
+                if (cursor.moveToFirst()) {
+                    imgId = cursor.getInt(0);
+                }
+                break;
+            case 2:
+                cursor = db.query(TABLE_SECTION_INCOME, new String[]{KEY_SECTION_INCOME_IMG_ID},
+                        KEY_SECTION_INCOME_NAME + " = ? ", new String[]{name}, null, null, null);
+                if (cursor.moveToFirst()) {
+                    imgId = cursor.getInt(0);
+                }
+                break;
+        }
+        db.close();
+        return imgId;
+    }
 
     public List<Section> getAllSectionIncome() {
         List<Section> sectionList = new ArrayList<Section>();
@@ -408,6 +461,34 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return sectionList;
     }
+
+    public List<String> getAllNameSection(int i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<String> allName = new ArrayList<>();
+        Cursor cursor;
+        switch (i) {
+            case 1:
+                cursor = db.query(TABLE_SECTION_SPENDING, new String[]{KEY_SECTION_SPENDING_NAME},
+                        null, null, null, null, null);
+                if (cursor.moveToLast()) {
+                    do {
+                        allName.add(cursor.getString(0));
+                    } while (cursor.moveToPrevious());
+                }
+                break;
+            case 2:
+                cursor = db.query(TABLE_SECTION_INCOME, new String[]{KEY_SECTION_INCOME_NAME},
+                        null, null, null, null, null);
+                if (cursor.moveToLast()) {
+                    do {
+                        allName.add(cursor.getString(0));
+                    } while (cursor.moveToPrevious());
+                }
+                break;
+        }
+        db.close();
+        return allName;
+    }
     //endregion
 
     //region delete I/S/P Section and I/S/P Object
@@ -435,35 +516,26 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteIncomeObject(FinanceObject financeObject) {
+    public void deleteIncomeObject(FinanceObject financeObject, int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_INCOME, KEY_INCOME_NAME + " = ? AND "
-                        + KEY_INCOME_AMOUNT + " = ? AND " + KEY_INCOME_DATE + " = ? ",
+                        + KEY_INCOME_AMOUNT + " = ? AND " + KEY_INCOME_ID + " = ? ",
                 new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
-                        financeObject.getDate()});
+                        String.valueOf(id)});
         db.close();
     }
 
-    public void deleteSpendingObject(FinanceObject financeObject) {
+    public void deleteSpendingObject(FinanceObject financeObject, int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SPENDING, KEY_SPENDING_NAME + " = ? AND "
-                        + KEY_SPENDING_AMOUNT + " = ? AND " + KEY_SPENDING_DATE + " = ? ",
+                        + KEY_SPENDING_AMOUNT + " = ? AND " + KEY_SPENDING_ID + " = ? ",
                 new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
-                        financeObject.getDate()});
+                        String.valueOf(id)});
         db.close();
     }
 
-    public void deletePlaningObject(FinanceObject financeObject) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PLANING, KEY_PLANING_NAME + " = ? AND "
-                        + KEY_PLANING_AMOUNT + " = ? AND " + KEY_PLANING_DATE + " = ? ",
-                new String[]{financeObject.getNameObj(), String.valueOf(financeObject.getAmount()),
-                        financeObject.getDate()});
-        db.close();
-    }
     //endregion
 
     //region update: CurrentCount  I/S/P Section and I/S/P Object
@@ -521,31 +593,46 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateIncomeObject(FinanceObject financeObject) {
+    public void updateIncomeObject(FinanceObject oldObject, FinanceObject newObject) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        /*SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
-        db.close();
+        values.put(KEY_INCOME_NAME, oldObject.getNameObj());
+        values.put(KEY_INCOME_AMOUNT, oldObject.getAmount());
+        db.update(TABLE_INCOME, values, KEY_INCOME_ID + "=" + oldObject.getObjId(), null);
+
+        db.close();*/
+        deleteIncomeObject(oldObject, oldObject.getObjId());
+        addToIncome(newObject);
 
     }
 
-    public void updateSpendingObject(FinanceObject financeObject) {
+    public void updateSpendingObject(FinanceObject oldObject, FinanceObject newObject) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        /*SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
-        db.close();
+        values.put(KEY_SPENDING_NAME, oldObject.getNameObj());
+        values.put(KEY_SPENDING_AMOUNT, oldObject.getAmount());
+        db.update(TABLE_SPENDING, values, KEY_SPENDING_ID + "=" + oldObject.getObjId(), null);
+
+        db.close();*/
+        deleteSpendingObject(oldObject, oldObject.getObjId());
+        addToSpending(newObject);
+
     }
     //endregion
 
-    public void plusIncome(double income) {
+    public void plusDB(double amount) {
         double currentCount = Double.valueOf(getCurrentCount());
-        currentCount -= income;
+        currentCount += amount;
         updateCurrentCount(currentCount);
     }
 
-    public void minusSpending(double income) {
+    public void minusDB(double amount) {
         double currentCount = Double.valueOf(getCurrentCount());
-        currentCount += income;
+        currentCount -= amount;
         updateCurrentCount(currentCount);
     }
 }
