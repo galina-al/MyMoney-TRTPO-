@@ -15,10 +15,10 @@ import com.example.usr.mymoney.R;
 
 public class StatisticActivity extends AppCompatActivity {
 
-    FragmentPagerAdapter adapterViewPager;
-    DbHelper dbHelper;
-    public Menu menu;
-    public double currentCount;
+    private FragmentPagerAdapter adapterViewPager;
+    private DbHelper dbHelper;
+    private Menu menu;
+    private double currentCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +78,11 @@ public class StatisticActivity extends AppCompatActivity {
             super(fragmentManager);
         }
 
-        // Returns total number of pages
         @Override
         public int getCount() {
             return NUM_ITEMS;
         }
 
-        // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
             switch (position) {
@@ -97,7 +95,6 @@ public class StatisticActivity extends AppCompatActivity {
             }
         }
 
-        // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             CharSequence title = "";
@@ -114,51 +111,3 @@ public class StatisticActivity extends AppCompatActivity {
 
     }
 }
-
-/*pieChart = (PieChart) findViewById(R.id.pie_chart);
-        pieChart.setDescription("Sales by employee (In Thousands $)");
-        pieChart.setRotationEnabled(true);
-
-        pieChart.setHoleRadius(25f);
-        pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Super Cool chart");
-        pieChart.setCenterTextSize(10);
-
-        addDataSet(pieChart);
-
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry entry, int i, Highlight highlight) {
-
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });*/
-
-
-        /*PieChart chart = (PieChart) findViewById(R.id.pie_chart);
-
-        ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(4f, 0));
-        entries.add(new Entry(8f, 1));
-        entries.add(new Entry(6f, 2));
-        entries.add(new Entry(12f, 3));
-        entries.add(new Entry(18f, 4));
-        entries.add(new Entry(9f, 5));
-
-        PieDataSet dataset = new PieDataSet(entries, "# of Calls");
-
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Январь");
-        labels.add("Февраль");
-        labels.add("Март");
-        labels.add("Апрель");
-        labels.add("Май");
-        labels.add("Июнь");
-
-        PieData data = new PieData(labels, dataset);
-        chart.setData(data);
-        chart.invalidate();*/

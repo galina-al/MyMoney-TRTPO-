@@ -89,8 +89,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_income"
-                    android:layout_width="90dip"
-                    android:layout_height="90dip"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
                     android:src="@drawable/finance"
                     app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
@@ -114,8 +114,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_spending"
-                    android:layout_width="90dip"
-                    android:layout_height="90dip"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
                     android:src="@drawable/costs"
                     app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
@@ -146,8 +146,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_plans"
-                    android:layout_width="90dip"
-                    android:layout_height="90dip"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
                     android:src="@drawable/plans"
                     app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
@@ -170,8 +170,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_statistic"
-                    android:layout_width="90dip"
-                    android:layout_height="90dip"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
                     android:src="@drawable/statistic"
                     app:cb_color="#FF80CBC4"
                     app:cb_pressedRingWidth="8dip" />
@@ -205,8 +205,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_exit"
-                    android:layout_width="90dip"
-                    android:layout_height="90dip"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
                     android:src="@drawable/exit"
                     app:cb_color="@color/background"
                     app:cb_pressedRingWidth="8dip" />
@@ -231,8 +231,8 @@
 
                 <at.markushi.ui.CircleButton
                     android:id="@+id/btn_info"
-                    android:layout_width="90dip"
-                    android:layout_height="90dip"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
                     android:src="@drawable/info"
                     app:cb_color="@color/background"
                     app:cb_pressedRingWidth="8dip" />

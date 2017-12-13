@@ -91,7 +91,7 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
                             editSpending.setText("");
                             recyclerView.requestFocus();
 
-                            Toast.makeText(getApplicationContext(), "Сумма добавлена!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Сумма добавлена!", Toast.LENGTH_SHORT).show();
 
                             currentCount = Double.valueOf(dbHelper.getCurrentCount());
                             menu.getItem(0).setTitle(String.valueOf(currentCount));
@@ -106,8 +106,9 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
         );
     }
 
-    /*@Override
-    protected void onStart() {
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_spending);
         List<Section> listFromDB = dbHelper.getAllSectionSpending();
         sections = listFromDB;
@@ -115,9 +116,8 @@ public class SpendingActivity extends AppCompatActivity implements View.OnClickL
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RVAdapterSection(sections);
         recyclerView.setAdapter(adapter);
-        super.onStart();
 
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -23,6 +23,4 @@
 
     <include layout="@layout/content_editing_one_obj" />
 
-    <include layout="@layout/bottom_calendar"></include>
-
 </android.support.design.widget.CoordinatorLayout>

@@ -1,7 +1,10 @@
 package com.example.usr.mymoney.Activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.example.usr.mymoney.Adapter.RVAdapterObject;
+import com.example.usr.mymoney.Adapter.RecyclerItemClickListener;
 import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.Entity.FinanceObject;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.Adapter.RVAdapterObject;
-import com.example.usr.mymoney.Adapter.RecyclerItemClickListener;
+import com.example.usr.mymoney.VibrateService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +35,10 @@ public class EditingFinanceObjActivity extends AppCompatActivity {
     private int number;
     private double currentCount;
     private List<FinanceObject> objects;
+    private final int DIAOLG_ID = 1;
+    private int selected = 0;
+    private RecyclerView recyclerView;
+    private TextView textView;
 
 
     @Override
@@ -55,8 +64,7 @@ public class EditingFinanceObjActivity extends AppCompatActivity {
         number = extras.getInt("number");
 
         objects = dbHelper.getOneSection(name, date, number);
-
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_editing_obj);
+        recyclerView = (RecyclerView) findViewById(R.id.rv_editing_obj);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -84,10 +92,65 @@ public class EditingFinanceObjActivity extends AppCompatActivity {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        // do whatever
+                        selected = position;
+                        Intent intentVibrate =new Intent(getApplicationContext(),VibrateService.class);
+                        startService(intentVibrate);
+                        showDialog(DIAOLG_ID);
                     }
                 })
         );
+
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DIAOLG_ID:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Вы уверены, что хотите ЭТО удалить? :D")
+                        .setCancelable(false)
+                        .setPositiveButton("Удалить",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        final int objId = objects.get(selected).getObjId();
+                                        final String oldAmount = objects.get(selected).getAmount().toString();
+                                        FinanceObject financeObject = new FinanceObject();
+                                        financeObject.setNameObj(name);
+                                        financeObject.setAmount(Double.valueOf(oldAmount));
+                                        if (number == 2) {
+                                            dbHelper.deleteIncomeObject(financeObject, objId);
+                                            dbHelper.minusDB(Double.valueOf(oldAmount));
+                                        } else {
+                                            dbHelper.deleteSpendingObject(financeObject, objId);
+                                            dbHelper.plusDB(Double.valueOf(oldAmount));
+                                        }
+
+                                        currentCount = Double.valueOf(dbHelper.getCurrentCount());
+                                        menu.getItem(0).setTitle(String.valueOf(currentCount));
+
+                                        objects = dbHelper.getOneSection(name, date, number);
+                                        adapter.updateAll(objects);
+                                        if(adapter.getItemCount() == 0){
+                                            textView = (TextView) findViewById(R.id.tv_editing_fin_obj);
+                                            textView.setVisibility(View.VISIBLE);
+                                        }
+                                        recyclerView.setAdapter(adapter);
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setNegativeButton("Отмена",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                return builder.create();
+            default:
+                return null;
+        }
 
     }
 
@@ -106,6 +169,7 @@ public class EditingFinanceObjActivity extends AppCompatActivity {
         currentCount = Double.valueOf(dbHelper.getCurrentCount());
         menu.getItem(0).setTitle(String.valueOf(currentCount));
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -34,7 +34,7 @@ public class RVAdapterSection extends RecyclerView.Adapter<RVAdapterSection.Sect
     public void onBindViewHolder(SectionViewHolder holder, int position) {
         holder.sectionName.setText(sections.get(position).getNameSection());
         holder.sectionAmount.setText(sections.get(position).getAmount());
-        holder.sectionImg.setImageResource(sections.get(position).getImageId());
+        holder.sectionImg.setImageResource(sections.get(position).imageId);
         holder.sectionPercent.setText(sections.get(position).getPercent());
     }
 

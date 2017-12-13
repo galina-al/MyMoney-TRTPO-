@@ -1,12 +1,10 @@
 <resources>
-    <string name="app_name">MyMoney</string>
+    <string name="app_name">My Money</string>
     <string name="enter_amount">Введите сумму</string>
-    <string name="title_activity_finance">FinanceActivity</string>
     <string name="title_activity_statistic">StatisticActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="edit_amount">Введите сумму:</string>
-    <string name="title_activity_costs">CostsActivity</string>
     <string name="business">Бизнес</string>
     <string name="medical">Медицина</string>
     <string name="food">Питание</string>
@@ -14,18 +12,13 @@
     <string name="hygiene">Гигиена</string>
     <string name="sport">Спорт</string>
     <string name="bar">Бары и Кафе</string>
-    <string name="title_activity_plans">PlansActivity</string>
-    <string name="title_activity_info">InfoActivity</string>
-    <string name="title_activity_costs2">Costs2Activity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gifts">Подарки</string>
     <string name="title_activity_editing_income">EditingIncomeActivity</string>
     <string name="title_activity_editing_spending">EditingSpendingActivity</string>
-    <string name="title_activity_editinig_finance_obj">EditinigFinanceObjActivity</string>
+    <string name="title_activity_editing_finance_obj">EditingFinanceObjActivity</string>
 
     <string name="title_activity_editing_one_obj">EditingOneObjActivity</string>
+    <string name="title_activity_info">Информация</string>
     <string name="info_text">
         "Material is the metaphor.\n\n"
 

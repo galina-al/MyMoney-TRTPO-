@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.example.usr.mymoney.DataBase.DbHelper;
-import com.example.usr.mymoney.R;
 import com.example.usr.mymoney.Adapter.RVAdapterSection;
 import com.example.usr.mymoney.Adapter.RecyclerItemClickListener;
+import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.Entity.Section;
+import com.example.usr.mymoney.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,6 +35,7 @@ public class SpendingStatisticFragment extends Fragment {
     private RVAdapterSection adapter;
     private RecyclerView recyclerView;
     private String selectedMonth;
+    private TextView textView;
 
     public static SpendingStatisticFragment newInstance(int page, String title) {
         SpendingStatisticFragment fragmentFirst = new SpendingStatisticFragment();
@@ -56,6 +58,7 @@ public class SpendingStatisticFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spending_statistic, container, false);
 
+        textView = (TextView) getActivity().findViewById(R.id.tv_fragm_spend);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_statistic_spend);
 
         final Spinner spinner = (Spinner) view.findViewById(R.id.spinner_spend);
@@ -80,7 +83,10 @@ public class SpendingStatisticFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new RVAdapterSection(sections);
-
+                if(adapter.getItemCount() > 0){
+                    textView = (TextView) getActivity().findViewById(R.id.tv_fragm_spend);
+                    textView.setVisibility(View.INVISIBLE);
+                }
                 recyclerView.setAdapter(adapter);
             }
 
@@ -119,9 +125,16 @@ public class SpendingStatisticFragment extends Fragment {
     public void onResume() {
         super.onResume();
         sections = dbHelper.getTotalAmount(selectedMonth, 1);
+        for (int k = 0; k < sections.size(); k++) {
+            sections.get(k).setPercent(getPercent(Double.parseDouble(sections.get(k).getAmount())));
+        }
         adapter = new RVAdapterSection(sections);
         adapter.updateAll(sections);
         recyclerView.setAdapter(adapter);
+        if(adapter.getItemCount() > 0){
+            textView = (TextView) getActivity().findViewById(R.id.tv_fragm_spend);
+            textView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public String getPercent(double amount) {

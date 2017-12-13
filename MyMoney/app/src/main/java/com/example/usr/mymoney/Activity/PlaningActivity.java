@@ -73,6 +73,7 @@ public class PlaningActivity extends AppCompatActivity implements View.OnClickLi
                         edit_name_section.setText(oldName);
 
                         final EditText edit_amount_section = (EditText) promptsView.findViewById(R.id.edit_amount);
+                        edit_amount_section.requestFocus();
                         String oldAmount = sections.get(position).getAmount();
                         edit_amount_section.setText(oldAmount);
 

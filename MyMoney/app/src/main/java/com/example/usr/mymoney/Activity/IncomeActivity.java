@@ -106,9 +106,9 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_income);
         List<Section> listFromDB = dbHelper.getAllSectionIncome();
         sections = listFromDB;
@@ -116,7 +116,7 @@ public class IncomeActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RVAdapterSection(sections);
         recyclerView.setAdapter(adapter);
-    }*/
+    }
 
 
     @Override

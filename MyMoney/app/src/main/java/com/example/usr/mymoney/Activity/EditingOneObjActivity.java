@@ -2,7 +2,6 @@ package com.example.usr.mymoney.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,14 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.usr.mymoney.Adapter.RVAdapterObject;
 import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.Entity.FinanceObject;
 import com.example.usr.mymoney.R;
-import com.example.usr.mymoney.Adapter.RVAdapterObject;
 
 import java.util.List;
 
@@ -64,7 +62,7 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
         date = extras.getString("date");
         day = extras.getString("day").substring(0, 2);
 
-        oldObject = new FinanceObject(oldName,Double.parseDouble(oldAmount), date, extras.getString("day"), imgId );
+        oldObject = new FinanceObject(oldName, Double.parseDouble(oldAmount), date, extras.getString("day"), imgId);
         oldObject.setObjId(objId);
         dbHelper = new DbHelper(this);
         currentCount = MainActivity.getCurrentCount(dbHelper, currentCount);
@@ -72,10 +70,9 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
         spinner_section = (Spinner) findViewById(R.id.spinner_name_section);
         edit_amount_obj = (EditText) findViewById(R.id.edit_amount_obj);
         edit_amount_obj.setText(oldAmount);
+        edit_amount_obj.requestFocus();
         Button btn_update = (Button) findViewById(R.id.btn_update_obj);
         btn_update.setOnClickListener(this);
-        Button btn_delete = (Button) findViewById(R.id.btn_delete);
-        btn_delete.setOnClickListener(this);
 
         List<String> allNameSection = dbHelper.getAllNameSection(number);
         int idName = allNameSection.indexOf(oldName);
@@ -85,17 +82,6 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
         spinner_section.setAdapter(arrayAdapterName);
         spinner_section.setSelection(idName);
 
-        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_calendar);
-
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
-
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-        bottomSheetBehavior.setPeekHeight(200);
-        bottomSheetBehavior.setHideable(false);
-
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendar);
         selectedDate = (TextView) findViewById(R.id.selected_date);
         selectedDate.setText(day + "." + date);
@@ -103,28 +89,20 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
 
-                if (i2 < 10) {
-                    day = 0 + String.valueOf(i2);
+                if (i1 < 9) {
+                    date = 0 + String.valueOf(i1 + 1) + "." + String.valueOf(i);
                 } else {
-                    day = String.valueOf(i2);
+                    date = String.valueOf(i1 + 1) + "." + String.valueOf(i);
                 }
-                String select = day + "." + (i1 + 1) + "." + i;
+                if (i2 < 10) {
+                    day = 0 + String.valueOf(i2) + "." + date.substring(0, 2);
+                } else {
+                    day = String.valueOf(i2) + "." + date.substring(0, 2);
+                }
+                String select = day + "." + i;
                 selectedDate.setText(select);
             }
         });
-        /*bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });*/
-
-
     }
 
     @Override
@@ -148,7 +126,7 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         final String newName = spinner_section.getSelectedItem().toString();
         final String amountObj = edit_amount_obj.getText().toString();
-        final String newDay = day + "." + date.substring(0, 2);
+        final String newDay = day;
 
         switch (view.getId()) {
             case R.id.btn_update_obj:
@@ -172,24 +150,6 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
                     menu.getItem(0).setTitle(String.valueOf(currentCount));
                     this.finish();
                 }
-                break;
-
-            case R.id.btn_delete:
-                FinanceObject financeObject = new FinanceObject();
-                financeObject.setNameObj(oldName);
-                financeObject.setAmount(Double.valueOf(oldAmount));
-                if (number == 2) {
-                    dbHelper.deleteIncomeObject(financeObject, objId);
-                    dbHelper.minusDB(Double.valueOf(oldAmount));
-                } else {
-                    dbHelper.deleteSpendingObject(financeObject, objId);
-                    dbHelper.plusDB(Double.valueOf(oldAmount));
-                }
-
-                currentCount = Double.valueOf(dbHelper.getCurrentCount());
-                menu.getItem(0).setTitle(String.valueOf(currentCount));
-
-                this.finish();
                 break;
         }
     }

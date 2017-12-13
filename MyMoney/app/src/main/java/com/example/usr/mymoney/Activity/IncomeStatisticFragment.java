@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.example.usr.mymoney.DataBase.DbHelper;
-import com.example.usr.mymoney.R;
 import com.example.usr.mymoney.Adapter.RVAdapterSection;
 import com.example.usr.mymoney.Adapter.RecyclerItemClickListener;
+import com.example.usr.mymoney.DataBase.DbHelper;
 import com.example.usr.mymoney.Entity.Section;
+import com.example.usr.mymoney.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,8 +35,8 @@ public class IncomeStatisticFragment extends Fragment {
     private RVAdapterSection adapter;
     private RecyclerView recyclerView;
     private String selectedMonth;
+    private TextView textView;
 
-    // newInstance constructor for creating fragment with arguments
     public static IncomeStatisticFragment newInstance(int page, String title) {
         IncomeStatisticFragment fragmentFirst = new IncomeStatisticFragment();
         Bundle args = new Bundle();
@@ -56,6 +57,7 @@ public class IncomeStatisticFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_income_statistic, container, false);
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_statistic_inc);
 
@@ -81,8 +83,11 @@ public class IncomeStatisticFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new RVAdapterSection(sections);
-
                 recyclerView.setAdapter(adapter);
+                if(adapter.getItemCount() == 0){
+                    textView = (TextView) getActivity().findViewById(R.id.tv_fragm_income);
+                    textView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -120,9 +125,16 @@ public class IncomeStatisticFragment extends Fragment {
     public void onResume() {
         super.onResume();
         sections = dbHelper.getTotalAmount(selectedMonth, 2);
+        for (int k = 0; k < sections.size(); k++) {
+            sections.get(k).setPercent(getPercent(Double.parseDouble(sections.get(k).getAmount())));
+        }
         adapter = new RVAdapterSection(sections);
         adapter.updateAll(sections);
         recyclerView.setAdapter(adapter);
+        if(adapter.getItemCount() == 0){
+            textView = (TextView) getActivity().findViewById(R.id.tv_fragm_income);
+            textView.setVisibility(View.VISIBLE);
+        }
     }
 
     public String getPercent(double amount) {
@@ -130,4 +142,6 @@ public class IncomeStatisticFragment extends Fragment {
         String strPrecent = precent + "%";
         return strPrecent;
     }
+
+
 }

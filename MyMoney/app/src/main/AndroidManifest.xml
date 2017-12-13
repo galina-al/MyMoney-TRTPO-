@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.usr.mymoney">
-
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <service android:name=".VibrateService"/>
         <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +19,6 @@
         </activity>
         <activity
             android:name=".Activity.IncomeActivity"
-            android:label="@string/title_activity_finance"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.StatisticActivity"
@@ -26,27 +26,21 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.SpendingActivity"
-            android:label="@string/title_activity_costs"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.PlaningActivity"
-            android:label="@string/title_activity_plans"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.EditingIncomeActivity"
-            android:label="@string/title_activity_editing_income"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.EditingSpendingActivity"
-            android:label="@string/title_activity_editing_spending"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.EditingFinanceObjActivity"
-            android:label="@string/title_activity_editinig_finance_obj"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.EditingOneObjActivity"
-            android:label="@string/title_activity_editing_one_obj"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.InfoActivity"

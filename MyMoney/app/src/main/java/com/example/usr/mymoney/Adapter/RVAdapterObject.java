@@ -62,6 +62,10 @@ public class RVAdapterObject extends RecyclerView.Adapter<RVAdapterObject.Object
         notifyItemChanged(position);
     }
 
+    public void updateAll(List<FinanceObject> objects){
+        financeObjects = objects;
+        notifyItemRangeChanged(1, objects.size());
+    }
     public static class ObjectViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView objectName;

@@ -11,18 +11,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAllCaps="false"
-        android:text="Доходы"
+        android:text="Выберите месяц:"
         android:textColor="#062d1d"
-        android:textSize="24dp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:id="@+id/spinner_inc"
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:background="@color/spinner" />
+    <TextView
+        android:id="@+id/tv_fragm_income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Тут будут отображены ваши доходы"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_statistic_inc"
