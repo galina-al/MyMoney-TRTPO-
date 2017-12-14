@@ -20,30 +20,24 @@
     <string name="title_activity_editing_one_obj">EditingOneObjActivity</string>
     <string name="title_activity_info">Информация</string>
     <string name="info_text">
-        "Material is the metaphor.\n\n"
+        "Финансовый менеджер MyMoney.\n\n"
 
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
+        "Данное приложение поможет вам систематизировать свои расходы.\n\n"
 
-        "Bold, graphic, intentional.\n\n"
+        "Навигация по приложению.\n\n"
 
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
+        "В окне "Доходы" вы можете ввести необходимую сумму и выбрав нужный раздел, добавить ее в базу. "
+        "Также вы можете изменять названия существующих разделов, добавлять новые и удалять."
+        "Перейти к этим действиям вы можете нажав кнопку редактирования.\n "
+        "Те же действия вы можете выполнить и с разделами расходов. "
+        "В окне "Планы" у вас есть восможность добавить в отдельные разделы запланирлванную сумму расходов.\n"
+        "В окне статистики вы можете просмотреть историю расходов и доходов, выбрав нужный месяц.\n"
+        "При нажатии на определенный раздел вы перейдете в детальный разбор и сможете изменить внесенные данные, "
+        "переместить их или удалить. "
+        "Удаление производится долгим нажатием на нужный пункт.\n\n"
 
-        "Motion provides meaning.\n\n"
-    </string>
+        ".\n\n"
+
+        </string>
 
 </resources>

@@ -89,16 +89,17 @@ public class EditingOneObjActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
 
-                if (i1 < 9) {
+                /*if (i1 < 9) {
                     date = 0 + String.valueOf(i1 + 1) + "." + String.valueOf(i);
                 } else {
                     date = String.valueOf(i1 + 1) + "." + String.valueOf(i);
-                }
+                }*/
                 if (i2 < 10) {
-                    day = 0 + String.valueOf(i2) + "." + date.substring(0, 2);
+                    day = 0 + String.valueOf(i2) + "." + (i1 + 1);
                 } else {
-                    day = String.valueOf(i2) + "." + date.substring(0, 2);
+                    day = String.valueOf(i2) + "." + (i1 + 1);
                 }
+                date = (i1 + 1) + "." + i;
                 String select = day + "." + i;
                 selectedDate.setText(select);
             }

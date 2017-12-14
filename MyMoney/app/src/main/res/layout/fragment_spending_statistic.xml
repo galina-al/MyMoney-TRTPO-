@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Тут будут отображены ваши расходы"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_statistic_spend"

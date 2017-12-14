@@ -83,10 +83,10 @@ public class SpendingStatisticFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new RVAdapterSection(sections);
-                if(adapter.getItemCount() > 0){
+                /*if(adapter.getItemCount() > 0){
                     textView = (TextView) getActivity().findViewById(R.id.tv_fragm_spend);
                     textView.setVisibility(View.INVISIBLE);
-                }
+                }*/
                 recyclerView.setAdapter(adapter);
             }
 
@@ -131,10 +131,10 @@ public class SpendingStatisticFragment extends Fragment {
         adapter = new RVAdapterSection(sections);
         adapter.updateAll(sections);
         recyclerView.setAdapter(adapter);
-        if(adapter.getItemCount() > 0){
+        /*if(adapter.getItemCount() > 0){
             textView = (TextView) getActivity().findViewById(R.id.tv_fragm_spend);
             textView.setVisibility(View.INVISIBLE);
-        }
+        }*/
     }
 
     public String getPercent(double amount) {

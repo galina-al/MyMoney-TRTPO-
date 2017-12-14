@@ -84,10 +84,10 @@ public class IncomeStatisticFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new RVAdapterSection(sections);
                 recyclerView.setAdapter(adapter);
-                if(adapter.getItemCount() == 0){
+                /*if(adapter.getItemCount() > 0){
                     textView = (TextView) getActivity().findViewById(R.id.tv_fragm_income);
-                    textView.setVisibility(View.VISIBLE);
-                }
+                    textView.setVisibility(View.INVISIBLE);
+                }*/
             }
 
             @Override
@@ -108,7 +108,6 @@ public class IncomeStatisticFragment extends Fragment {
                         intent.putExtra("number", 2);
 
                         startActivity(intent);
-
                     }
 
                     @Override
@@ -131,10 +130,10 @@ public class IncomeStatisticFragment extends Fragment {
         adapter = new RVAdapterSection(sections);
         adapter.updateAll(sections);
         recyclerView.setAdapter(adapter);
-        if(adapter.getItemCount() == 0){
+        /*if(adapter.getItemCount() > 0){
             textView = (TextView) getActivity().findViewById(R.id.tv_fragm_income);
-            textView.setVisibility(View.VISIBLE);
-        }
+            textView.setVisibility(View.INVISIBLE);
+        }*/
     }
 
     public String getPercent(double amount) {
